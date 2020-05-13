@@ -5,7 +5,7 @@ const isCircular = require('is-circular')
 const CID_CBOR_TAG = 42
 
 module.exports = multiformats => {
-  const { CID, bytes } = multiformats
+  const { CID, bytes, varint } = multiformats
   function tagCID (cid) {
     if (typeof cid === 'string') {
       cid = new CID(cid).buffer
@@ -29,7 +29,8 @@ module.exports = multiformats => {
     }
 
     function transform (obj) {
-      if (!obj || bytes.isBinary(obj) || typeof obj === 'string') {
+      if (bytes.isBinary(obj)) return bytes.coerce(obj)
+      if (!obj || typeof obj === 'string') {
         return obj
       }
 
@@ -66,6 +67,12 @@ module.exports = multiformats => {
     [CID_CBOR_TAG]: (val) => {
       // remove that 0
       val = val.slice(1)
+      val = bytes.coerce(val)
+      const [version] = varint.decode(val)
+      if (version > 1) {
+        // CIDv0
+        return new CID(0, 0x70, val)
+      }
       return new CID(val)
     }
   }
@@ -112,6 +119,7 @@ module.exports = multiformats => {
     currentSize = decoderOptions.size
   }
   configureDecoder()
+  module.exports.configureDecoder = configureDecoder // for testing
 
   const encode = (node) => {
     const nodeTagged = replaceCIDbyTAG(node)
