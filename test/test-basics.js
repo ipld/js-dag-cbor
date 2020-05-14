@@ -75,6 +75,14 @@ describe('util', () => {
     same(deserialized, slashObject)
   })
 
+  test('CIDs have clean for deep comparison', () => {
+    const deserializedObj = decode(serializedObj)
+    // backing buffer must be pristine as some comparison libraries go that deep
+    const actual = new Uint8Array(deserializedObj.link.buffer.buffer).join(',')
+    const expected = obj.link.buffer.join(',')
+    same(actual, expected)
+  })
+
   test('error catching', () => {
     const circlarObj = {}
     circlarObj.a = circlarObj
