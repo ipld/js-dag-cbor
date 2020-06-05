@@ -7,24 +7,12 @@ const CID_CBOR_TAG = 42
 module.exports = multiformats => {
   const { CID, bytes, varint } = multiformats
   function tagCID (cid) {
-    if (typeof cid === 'string') {
-      cid = new CID(cid).buffer
-    } else if (CID.isCID(cid)) {
-      cid = cid.buffer
-    }
-
-    const buffer = Uint8Array.from([...bytes.fromHex('00'), ...cid])
+    const buffer = Uint8Array.from([...bytes.fromHex('00'), ...cid.buffer])
     return new cbor.Tagged(CID_CBOR_TAG, buffer)
   }
 
   function replaceCIDbyTAG (dagNode) {
-    let circular
-    try {
-      circular = isCircular(dagNode)
-    } catch (e) {
-      circular = false
-    }
-    if (circular) {
+    if (isCircular(dagNode)) {
       throw new Error('The object passed has circular references')
     }
 
@@ -98,9 +86,6 @@ module.exports = multiformats => {
       }
       if (typeof options.maxSize === 'number') {
         maxSize = options.maxSize
-      }
-      if (options.tags) {
-        tags = Object.assign({}, defaultTags, options && options.tags)
       }
     } else {
       // no options, reset to defaults
