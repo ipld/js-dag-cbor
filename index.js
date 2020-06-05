@@ -78,7 +78,7 @@ module.exports = multiformats => {
    * @param {Object} [options.tags] - An object whose keys are CBOR tag numbers and values are transform functions that accept a `value` and return a decoded representation of that `value`
    */
   const configureDecoder = (options) => {
-    let tags = defaultTags
+    const tags = defaultTags
 
     if (options) {
       if (typeof options.size === 'number') {
