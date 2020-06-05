@@ -66,8 +66,7 @@ module.exports = multiformats => {
   const defaultTags = {
     [CID_CBOR_TAG]: (val) => {
       // remove that 0
-      val = val.slice(1)
-      val = bytes.coerce(val)
+      val = Uint8Array.from(val.slice(1))
       const [version] = varint.decode(val)
       if (version > 1) {
         // CIDv0
