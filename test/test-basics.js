@@ -83,7 +83,6 @@ describe('util', () => {
     dagCBOR.configureDecoder()
   })
 
-
   test('.serialize and .deserialize object with slash as property', () => {
     const slashObject = { '/': true }
     const serialized = encode(slashObject)
