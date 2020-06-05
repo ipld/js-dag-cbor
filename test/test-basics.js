@@ -25,7 +25,8 @@ describe('util', () => {
     nested: {
       hello: 'world',
       link: new CID('QmRgutAxd8t7oGkSm4wmeuByG6M51wcTso6cubDdQtuEfL')
-    }
+    },
+    bytes: Buffer.from('asdf')
   }
   const serializedObj = encode(obj)
 
@@ -68,6 +69,21 @@ describe('util', () => {
     dagCBOR.configureDecoder()
   })
 
+  test('.deserialize fail on large objects beyond maxSize - omit size', () => {
+    // larger than the default borc heap size, should bust the heap if we turn off auto-grow
+    const dataSize = (128 * 1024) + 1
+    const largeObj = { someKey: [].slice.call(new Uint8Array(dataSize)) }
+
+    dagCBOR.configureDecoder({ maxSize: 128 * 1024 }) // 64 Kb start, 128 Kb max
+    const serialized = encode(largeObj)
+    same(bytes.isBinary(serialized), true)
+
+    assert.throws(() => decode(serialized), /^Error: Data is too large to deserialize with current decoder$/)
+    // reset decoder to default
+    dagCBOR.configureDecoder()
+  })
+
+
   test('.serialize and .deserialize object with slash as property', () => {
     const slashObject = { '/': true }
     const serialized = encode(slashObject)
@@ -96,5 +112,11 @@ describe('util', () => {
       const decoded = decode(encoded)
       same(decoded, original)
     }
+  })
+  test('CIDv1', () => {
+    const cid = new CID('zdj7Wd8AMwqnhJGQCbFxBVodGSBG84TM7Hs1rcJuQMwTyfEDS')
+    const encoded = encode({ link: cid })
+    const decoded = decode(encoded)
+    same(decoded, { link: cid })
   })
 })
