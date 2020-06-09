@@ -2,13 +2,10 @@
 'use strict'
 
 const { Buffer } = require('buffer')
-const chai = require('chai')
-const dirtyChai = require('dirty-chai')
-const expect = chai.expect
-chai.use(dirtyChai)
+const { expect } = require('aegir/utils/chai')
 const garbage = require('garbage')
 const dagCBOR = require('../src')
-const multihash = require('multihashes')
+const multihash = require('multihashing-async').multihash
 const CID = require('cids')
 
 describe('util', () => {
