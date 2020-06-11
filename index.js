@@ -120,8 +120,13 @@ module.exports = multiformats => {
       throw new Error('Data is too large to deserialize with current decoder')
     }
 
-    const deserialized = decoder.decodeFirst(data)
-    return deserialized
+    // borc will decode back-to-back objects into an implicit top-level array, we
+    // strictly want to only see a single explicit top-level object
+    const all = decoder.decodeAll(data)
+    if (all.length !== 1) {
+      throw new Error('Extraneous CBOR data found beyond initial top-level object')
+    }
+    return all[0]
   }
 
   const code = 0x71

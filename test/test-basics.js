@@ -112,10 +112,19 @@ describe('util', () => {
       same(decoded, original)
     }
   })
+
   test('CIDv1', () => {
     const cid = new CID('zdj7Wd8AMwqnhJGQCbFxBVodGSBG84TM7Hs1rcJuQMwTyfEDS')
     const encoded = encode({ link: cid })
     const decoded = decode(encoded)
     same(decoded, { link: cid })
+  })
+
+  test('reject extraneous, but valid CBOR data after initial top-level object', () => {
+    assert.throws(() => {
+      // two top-level CBOR objects, the original and a single uint=0, valid if using
+      // CBOR in streaming mode, not valid here
+      decode(Buffer.concat([Buffer.from(serializedObj), Buffer.alloc(1)]))
+    }, /^Error: Extraneous CBOR data found beyond initial top-level object/)
   })
 })
