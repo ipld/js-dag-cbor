@@ -122,7 +122,7 @@ describe('dag-cbor', () => {
     same(decoded, { link: cid })
   })
 
-  it('encode and decode consistency  with Uint8Array and Buffer fields', () => {
+  test('encode and decode consistency  with Uint8Array and Buffer fields', () => {
     const buffer = Buffer.from('some data')
     const bytes = Uint8Array.from(buffer)
 
@@ -139,5 +139,13 @@ describe('dag-cbor', () => {
     }
     verify(decode(s1))
     verify(decode(s2))
+  })
+
+  test('reject extraneous, but valid CBOR data after initial top-level object', () => {
+    assert.throws(() => {
+      // two top-level CBOR objects, the original and a single uint=0, valid if using
+      // CBOR in streaming mode, not valid here
+      decode(Buffer.concat([Buffer.from(serializedObj), Buffer.alloc(1)]))
+    }, /^Error: Extraneous CBOR data found beyond initial top-level object/)
   })
 })
