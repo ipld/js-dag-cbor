@@ -4,6 +4,9 @@ const isCircular = require('is-circular')
 // https://github.com/ipfs/go-ipfs/issues/3570#issuecomment-273931692
 const CID_CBOR_TAG = 42
 
+const code = 0x71
+const name = 'dag-cbor'
+
 module.exports = multiformats => {
   const { CID, bytes, varint } = multiformats
   function tagCID (cid) {
@@ -124,7 +127,5 @@ module.exports = multiformats => {
     return deserialized
   }
 
-  const code = 0x71
-  const name = 'dag-cbor'
   return { encode, decode, code, name }
 }
