@@ -29,7 +29,7 @@
     "garbage": "0.0.0",
     "hundreds": "0.0.2",
     "mocha": "^7.2.0",
-    "multiformats": "0.0.4",
+    "multiformats": "0.0.11",
     "polendina": "^1.0.0",
     "standard": "^14.3.4"
   },

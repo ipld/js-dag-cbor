@@ -112,10 +112,30 @@ describe('util', () => {
       same(decoded, original)
     }
   })
+
   test('CIDv1', () => {
     const cid = new CID('zdj7Wd8AMwqnhJGQCbFxBVodGSBG84TM7Hs1rcJuQMwTyfEDS')
     const encoded = encode({ link: cid })
     const decoded = decode(encoded)
     same(decoded, { link: cid })
+  })
+
+  it('encode and decode consistency  with Uint8Array and Buffer fields', () => {
+    const buffer = Buffer.from('some data')
+    const bytes = Uint8Array.from(buffer)
+
+    const s1 = encode({ data: buffer })
+    const s2 = encode({ data: bytes })
+
+    same(s1, s2)
+
+    const verify = (s) => {
+      same(typeof s, 'object')
+      same(Object.keys(s), ['data'])
+      assert(s.data instanceof Uint8Array)
+      same(s.data.buffer, bytes.buffer)
+    }
+    verify(decode(s1))
+    verify(decode(s2))
   })
 })
