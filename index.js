@@ -1,35 +1,27 @@
-const cbor = require('borc')
-const isCircular = require('is-circular')
+import cbor from 'borc'
+import isCircular from 'is-circular'
 
 // https://github.com/ipfs/go-ipfs/issues/3570#issuecomment-273931692
 const CID_CBOR_TAG = 42
 
-module.exports = multiformats => {
-  const { CID, bytes } = multiformats
-  function tagCID (cid) {
-    if (typeof cid === 'string') {
-      cid = new CID(cid).buffer
-    } else if (CID.isCID(cid)) {
-      cid = cid.buffer
-    }
+const code = 0x71
+const name = 'dag-cbor'
 
-    const buffer = Uint8Array.from([...bytes.fromHex('00'), ...cid])
+const create = multiformats => {
+  const { CID, bytes, varint } = multiformats
+  function tagCID (cid) {
+    const buffer = Uint8Array.from([...bytes.fromHex('00'), ...cid.buffer])
     return new cbor.Tagged(CID_CBOR_TAG, buffer)
   }
 
   function replaceCIDbyTAG (dagNode) {
-    let circular
-    try {
-      circular = isCircular(dagNode)
-    } catch (e) {
-      circular = false
-    }
-    if (circular) {
+    if (isCircular(dagNode)) {
       throw new Error('The object passed has circular references')
     }
 
     function transform (obj) {
-      if (!obj || bytes.isBinary(obj) || typeof obj === 'string') {
+      if (bytes.isBinary(obj)) return bytes.coerce(obj)
+      if (!obj || typeof obj === 'string') {
         return obj
       }
 
@@ -65,7 +57,12 @@ module.exports = multiformats => {
   const defaultTags = {
     [CID_CBOR_TAG]: (val) => {
       // remove that 0
-      val = val.slice(1)
+      val = Uint8Array.from(val.slice(1))
+      const [version] = varint.decode(val)
+      if (version > 1) {
+        // CIDv0
+        return new CID(0, 0x70, val)
+      }
       return new CID(val)
     }
   }
@@ -84,7 +81,7 @@ module.exports = multiformats => {
    * @param {Object} [options.tags] - An object whose keys are CBOR tag numbers and values are transform functions that accept a `value` and return a decoded representation of that `value`
    */
   const configureDecoder = (options) => {
-    let tags = defaultTags
+    const tags = defaultTags
 
     if (options) {
       if (typeof options.size === 'number') {
@@ -92,9 +89,6 @@ module.exports = multiformats => {
       }
       if (typeof options.maxSize === 'number') {
         maxSize = options.maxSize
-      }
-      if (options.tags) {
-        tags = Object.assign({}, defaultTags, options && options.tags)
       }
     } else {
       // no options, reset to defaults
@@ -112,6 +106,7 @@ module.exports = multiformats => {
     currentSize = decoderOptions.size
   }
   configureDecoder()
+  create.configureDecoder = configureDecoder // for testing
 
   const encode = (node) => {
     const nodeTagged = replaceCIDbyTAG(node)
@@ -132,7 +127,6 @@ module.exports = multiformats => {
     return deserialized
   }
 
-  const code = 0x71
-  const name = 'dag-cbor'
   return { encode, decode, code, name }
 }
+export default create
