@@ -1,11 +1,13 @@
 /* eslint-env mocha */
 'use strict'
-const garbage = require('garbage')
-const assert = require('assert')
-const dagCBOR = require('../')
-const multiformats = require('multiformats/basics')
+import garbage from 'garbage'
+import assert from 'assert'
+import dagCBOR from '../index.js'
+import multiformats from 'multiformats/basics.js'
+import base58 from 'multiformats/bases/base58.js'
+
 const { CID, multicodec, multibase, bytes } = multiformats
-multibase.add(require('multiformats/bases/base58'))
+multibase.add(base58)
 multicodec.add(dagCBOR)
 
 const encode = v => multicodec.encode(v, 'dag-cbor')
@@ -14,7 +16,7 @@ const decode = v => multicodec.decode(v, 'dag-cbor')
 const test = it
 const same = assert.deepStrictEqual
 
-describe('util', () => {
+describe('dag-cbor', () => {
   const obj = {
     someKey: 'someValue',
     link: new CID('QmRgutAxd8t7oGkSm4wmeuByG6M51wcTso6cubDdQtuEfL'),
