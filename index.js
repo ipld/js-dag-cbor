@@ -1,5 +1,5 @@
-const cbor = require('borc')
-const isCircular = require('is-circular')
+import cbor from 'borc'
+import isCircular from 'is-circular'
 
 // https://github.com/ipfs/go-ipfs/issues/3570#issuecomment-273931692
 const CID_CBOR_TAG = 42
@@ -7,7 +7,7 @@ const CID_CBOR_TAG = 42
 const code = 0x71
 const name = 'dag-cbor'
 
-module.exports = multiformats => {
+const create = multiformats => {
   const { CID, bytes, varint } = multiformats
   function tagCID (cid) {
     const buffer = Uint8Array.from([...bytes.fromHex('00'), ...cid.buffer])
@@ -106,7 +106,7 @@ module.exports = multiformats => {
     currentSize = decoderOptions.size
   }
   configureDecoder()
-  module.exports.configureDecoder = configureDecoder // for testing
+  create.configureDecoder = configureDecoder // for testing
 
   const encode = (node) => {
     const nodeTagged = replaceCIDbyTAG(node)
@@ -129,3 +129,4 @@ module.exports = multiformats => {
 
   return { encode, decode, code, name }
 }
+export default create
