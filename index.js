@@ -15,7 +15,7 @@ const create = multiformats => {
   }
 
   function replaceCIDbyTAG (dagNode) {
-    if (isCircular(dagNode)) {
+    if (dagNode && typeof dagNode === 'object' && isCircular(dagNode)) {
       throw new Error('The object passed has circular references')
     }
 
@@ -111,7 +111,7 @@ const create = multiformats => {
   const encode = (node) => {
     const nodeTagged = replaceCIDbyTAG(node)
     const serialized = cbor.encode(nodeTagged)
-    return serialized
+    return bytes.coerce(serialized)
   }
 
   const decode = (data) => {
