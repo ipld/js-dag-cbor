@@ -15,7 +15,8 @@
     "coverage": "c8 --reporter=html mocha test/test-*.js && npx st -d coverage -p 8080"
   },
   "exports": {
-    "require": "./dist/index.cjs"
+    "require": "./dist/index.cjs",
+    "import": "./index.js"
   },
   "repository": {
     "type": "git",
