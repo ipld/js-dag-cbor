@@ -8,7 +8,7 @@
     "build": "rollup --config rollup.config.js",
     "prepublishOnly": "npm run build",
     "lint": "standard",
-    "test:cjs": "npm run build && mocha test/cjs/test.cjs",
+    "test:cjs": "npm run build && mocha dist/test/test-*.cjs",
     "test:node": "hundreds mocha test/test-*.js",
     "test:browser": "polendina --cleanup test/test-*.js",
     "test": "npm run lint && npm run test:node && npm run test:browser && npm run test:cjs",
@@ -36,9 +36,10 @@
   },
   "devDependencies": {
     "garbage": "0.0.0",
+    "globby": "^11.0.1",
     "hundreds": "0.0.7",
     "mocha": "^8.0.1",
-    "multiformats": "1.1.2",
+    "multiformats": "1.1.6",
     "polendina": "^1.0.0",
     "rollup": "^2.17.1",
     "standard": "^14.3.4"
