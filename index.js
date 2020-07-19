@@ -1,5 +1,5 @@
 import cbor from 'borc'
-import isCircular from 'is-circular'
+import isCircular from '@ipld/is-circular'
 
 // https://github.com/ipfs/go-ipfs/issues/3570#issuecomment-273931692
 const CID_CBOR_TAG = 42
@@ -15,7 +15,7 @@ const create = multiformats => {
   }
 
   function replaceCIDbyTAG (dagNode) {
-    if (dagNode && typeof dagNode === 'object' && isCircular(dagNode)) {
+    if (dagNode && typeof dagNode === 'object' && isCircular(CID, dagNode)) {
       throw new Error('The object passed has circular references')
     }
 
@@ -29,8 +29,9 @@ const create = multiformats => {
         return obj.map(transform)
       }
 
-      if (CID.isCID(obj)) {
-        return tagCID(obj)
+      const cid = CID.asCID(obj)
+      if (cid) {
+        return tagCID(cid)
       }
 
       const keys = Object.keys(obj)

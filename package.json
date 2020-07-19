@@ -31,17 +31,17 @@
   },
   "homepage": "https://github.com/ipld/js-ipld-dag-cbor",
   "dependencies": {
-    "borc": "^2.1.2",
-    "is-circular": "^1.0.2"
+    "@ipld/is-circular": "^1.0.3",
+    "borc": "^2.1.2"
   },
   "devDependencies": {
     "garbage": "0.0.0",
     "globby": "^11.0.1",
     "hundreds": "0.0.7",
     "mocha": "^8.0.1",
-    "multiformats": "1.1.11",
+    "multiformats": "2.0.1",
     "polendina": "^1.0.0",
-    "rollup": "^2.18.0",
+    "rollup": "^2.22.1",
     "standard": "^14.3.4"
   },
   "directories": {
