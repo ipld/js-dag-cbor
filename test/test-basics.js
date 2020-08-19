@@ -3,8 +3,8 @@
 import garbage from 'garbage'
 import assert from 'assert'
 import dagCBOR from '../index.js'
-import multiformats from 'multiformats/basics.js'
-import base58 from 'multiformats/bases/base58.js'
+import multiformats from 'multiformats/basics'
+import base58 from 'multiformats/bases/base58'
 
 const { CID, multicodec, multibase, bytes } = multiformats
 multibase.add(base58)
@@ -19,14 +19,14 @@ const same = assert.deepStrictEqual
 describe('dag-cbor', () => {
   const obj = {
     someKey: 'someValue',
-    link: new CID('QmRgutAxd8t7oGkSm4wmeuByG6M51wcTso6cubDdQtuEfL'),
+    link: CID.from('QmRgutAxd8t7oGkSm4wmeuByG6M51wcTso6cubDdQtuEfL'),
     links: [
-      new CID('QmRgutAxd8t7oGkSm4wmeuByG6M51wcTso6cubDdQtuEfL'),
-      new CID('QmRgutAxd8t7oGkSm4wmeuByG6M51wcTso6cubDdQtuEfL')
+      CID.from('QmRgutAxd8t7oGkSm4wmeuByG6M51wcTso6cubDdQtuEfL'),
+      CID.from('QmRgutAxd8t7oGkSm4wmeuByG6M51wcTso6cubDdQtuEfL')
     ],
     nested: {
       hello: 'world',
-      link: new CID('QmRgutAxd8t7oGkSm4wmeuByG6M51wcTso6cubDdQtuEfL')
+      link: CID.from('QmRgutAxd8t7oGkSm4wmeuByG6M51wcTso6cubDdQtuEfL')
     },
     bytes: Buffer.from('asdf')
   }
@@ -95,8 +95,8 @@ describe('dag-cbor', () => {
   test('CIDs have clean for deep comparison', () => {
     const deserializedObj = decode(serializedObj)
     // backing buffer must be pristine as some comparison libraries go that deep
-    const actual = new Uint8Array(deserializedObj.link.buffer.buffer).join(',')
-    const expected = obj.link.buffer.join(',')
+    const actual = new Uint8Array(deserializedObj.link.bytes.buffer).join(',')
+    const expected = obj.link.bytes.join(',')
     same(actual, expected)
   })
 
@@ -116,7 +116,7 @@ describe('dag-cbor', () => {
   })
 
   test('CIDv1', () => {
-    const cid = new CID('zdj7Wd8AMwqnhJGQCbFxBVodGSBG84TM7Hs1rcJuQMwTyfEDS')
+    const cid = CID.from('zdj7Wd8AMwqnhJGQCbFxBVodGSBG84TM7Hs1rcJuQMwTyfEDS')
     const encoded = encode({ link: cid })
     const decoded = decode(encoded)
     same(decoded, { link: cid })

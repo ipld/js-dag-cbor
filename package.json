@@ -34,12 +34,10 @@
   },
   "devDependencies": {
     "garbage": "0.0.0",
-    "globby": "^11.0.1",
-    "hundreds": "0.0.7",
-    "mocha": "^8.0.1",
-    "multiformats": "2.0.1",
-    "polendina": "^1.0.0",
-    "rollup": "^2.22.1",
+    "hundreds": "0.0.8",
+    "mocha": "^8.1.1",
+    "multiformats": "3.0.0",
+    "polendina": "^1.1.0",
     "standard": "^14.3.4"
   },
   "directories": {

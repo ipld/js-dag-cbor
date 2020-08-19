@@ -10,7 +10,7 @@ const name = 'dag-cbor'
 const create = multiformats => {
   const { CID, bytes, varint } = multiformats
   function tagCID (cid) {
-    const buffer = Uint8Array.from([...bytes.fromHex('00'), ...cid.buffer])
+    const buffer = Uint8Array.from([...bytes.fromHex('00'), ...cid.bytes])
     return new cbor.Tagged(CID_CBOR_TAG, buffer)
   }
 
@@ -62,9 +62,9 @@ const create = multiformats => {
       const [version] = varint.decode(val)
       if (version > 1) {
         // CIDv0
-        return new CID(0, 0x70, val)
+        return CID.create(0, 0x70, val)
       }
-      return new CID(val)
+      return CID.from(val)
     }
   }
   const defaultSize = 64 * 1024 // current decoder heap size, 64 Kb
