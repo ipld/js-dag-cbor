@@ -32,4 +32,6 @@ decoded.y[0] // 2
 CID.asCID(decoded.z.a) // cid instance
 ```
 
+# Spec
 
+The [`dag-cbor` specification is in the IPLD specs repo](https://github.com/ipld/specs/blob/master/block-layer/codecs/dag-json.md).
