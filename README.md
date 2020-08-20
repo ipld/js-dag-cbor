@@ -17,9 +17,9 @@ const { CID } = multiformats
 const obj = {
   x: 1,
   /* CID instances are encoded as links */
-  y: [2, 3, new CID('QmaozNR7DZHQK1ZcU9p7QdrshMvXqWK6gpu5rmrkPdT3L4')],
+  y: [2, 3, CID.from('QmaozNR7DZHQK1ZcU9p7QdrshMvXqWK6gpu5rmrkPdT3L4')],
   z: {
-    a: new CID('QmaozNR7DZHQK1ZcU9p7QdrshMvXqWK6gpu5rmrkPdT3L4'),
+    a: CID.from('QmaozNR7DZHQK1ZcU9p7QdrshMvXqWK6gpu5rmrkPdT3L4'),
     b: null,
     c: 'string'
   }
@@ -29,7 +29,7 @@ let encoder = Block.encoder(obj, 'dag-json')
 let encoded = await Block.encode() // binary encoded block
 let decoded = await Block.decoder(encoded, 'dag-json').decode()
 decoded.y[0] // 2
-CID.isCID(decoded.z.a) // true
+CID.asCID(decoded.z.a) // cid instance
 ```
 
 
