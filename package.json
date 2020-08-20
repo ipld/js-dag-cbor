@@ -36,7 +36,7 @@
     "garbage": "0.0.0",
     "hundreds": "0.0.8",
     "mocha": "^8.1.1",
-    "multiformats": "3.0.0",
+    "multiformats": "3.0.3",
     "polendina": "^1.1.0",
     "standard": "^14.3.4"
   },
