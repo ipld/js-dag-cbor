@@ -18,16 +18,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ipld/js-ipld-dag-cbor.git"
+    "url": "git+https://github.com/ipld/js-dag-cbor.git"
   },
   "keywords": [
     "IPFS"
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ipld/js-ipld-dag-cbor/issues"
+    "url": "https://github.com/ipld/js-dag-cbor/issues"
   },
-  "homepage": "https://github.com/ipld/js-ipld-dag-cbor",
+  "homepage": "https://github.com/ipld/js-dag-cbor",
   "dependencies": {
     "@ipld/is-circular": "^1.0.3",
     "borc": "^2.1.2"
