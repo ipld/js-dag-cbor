@@ -3,9 +3,9 @@
 import cbor from 'borc'
 import isCircular from '@ipld/is-circular'
 // @ts-ignore
-import { CID, bytes, varint, codec, hash } from 'multiformats'
-const { ImplicitSha256Digest } = hash
-const { Codec } = codec
+import { CID, bytes, codec } from 'multiformats'
+import { asCID } from "multiformats/cid"
+
 
 // https://github.com/ipfs/go-ipfs/issues/3570#issuecomment-273931692
 const CID_CBOR_TAG = 42
@@ -14,12 +14,15 @@ const code = 0x71
 const name = 'dag-cbor'
 
 function tagCID (cid) {
-  const buffer = Uint8Array.from([...bytes.fromHex('00'), ...cid.bytes])
+  const tag = bytes.fromHex('00')
+  const buffer = new Uint8Array(tag.byteLength + cid.bytes.byteLength)
+  buffer.set(tag)
+  buffer.set(cid.bytes, tag.byteLength)
   return new cbor.Tagged(CID_CBOR_TAG, buffer, null)
 }
 
-function replaceCIDbyTAG (dagNode) {
-  if (dagNode && typeof dagNode === 'object' && isCircular(CID, dagNode)) {
+function replaceCIDbyTAG (dagNode, config) {
+  if (dagNode && typeof dagNode === 'object' && isCircular(dagNode, { asCID: true })) {
     throw new Error('The object passed has circular references')
   }
 
@@ -33,7 +36,7 @@ function replaceCIDbyTAG (dagNode) {
       return obj.map(transform)
     }
 
-    const cid = CID.asCID(obj)
+    const cid = asCID(obj, config)
     if (cid) {
       return tagCID(cid)
     }
@@ -62,21 +65,16 @@ function replaceCIDbyTAG (dagNode) {
 const defaultTags = {
   [CID_CBOR_TAG]: (val) => {
     // remove that 0
-    val = Uint8Array.from(val.slice(1))
-    const [version] = varint.decode(val)
-    if (version > 1) {
-      // CIDv0
-      
-      return CID.createV0(ImplicitSha256Digest.decode(val))
-    }
-    return CID.from(val)
+    return CID.decode(val.subarray(1), cidConfig)
   }
 }
+
 const defaultSize = 64 * 1024 // current decoder heap size, 64 Kb
 let currentSize = defaultSize
 const defaultMaxSize = 64 * 1024 * 1024 // max heap size when auto-growing, 64 Mb
 let maxSize = defaultMaxSize
 let decoder = null
+let cidConfig = null
 
 /**
  * Configure the underlying CBOR decoder.
@@ -111,15 +109,15 @@ const configureDecoder = (options) => {
   // borc edits opts.size in-place so we can capture _actual_ size
   currentSize = decoderOptions.size
 }
-configureDecoder()
 
-const encode = (node) => {
-  const nodeTagged = replaceCIDbyTAG(node)
+const encode = (node, config) => {
+  const nodeTagged = replaceCIDbyTAG(node, config)
   const serialized = cbor.encode(nodeTagged)
   return bytes.coerce(serialized)
 }
 
-const decode = (data) => {
+const decode = (data, config) => {
+  cidConfig = config
   if (data.length > currentSize && data.length <= maxSize) {
     configureDecoder({ size: data.length })
   }
@@ -137,9 +135,16 @@ const decode = (data) => {
   return all[0]
 }
 
-export default Codec.from({
+export default codec.codec({
   name,
   code,
   encode,
   decode
+})
+
+export const configure = (config) => codec.codec({
+  name,
+  code,
+  encode: (node) => encode(node, config),
+  decode: (bytes) => decode(bytes, config)
 })

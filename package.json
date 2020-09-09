@@ -29,9 +29,9 @@
   },
   "homepage": "https://github.com/ipld/js-dag-cbor",
   "dependencies": {
-    "@ipld/is-circular": "^1.0.3",
+    "@ipld/is-circular": "git://github.com/gozala/is-circular#no-registry",
     "borc": "^2.1.2",
-    "multiformats": "git://github.com/gozala/js-multiformats#no-registry"
+    "multiformats": "git://github.com/gozala/js-multiformats#context-binding"
   },
   "devDependencies": {
     "garbage": "0.0.0",
