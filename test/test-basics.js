@@ -2,16 +2,19 @@
 'use strict'
 import garbage from 'garbage'
 import assert from 'assert'
-import dagCBOR from '../index.js'
-import multiformats from 'multiformats/basics'
-import base58 from 'multiformats/bases/base58'
+import { configureDecoder, configure } from '../index.js'
+import multiformats, { bytes } from 'multiformats'
+import { base58btc } from 'multiformats/bases/base58'
+import { base32 } from 'multiformats/bases/base32'
+import { sha256 } from 'multiformats/hashes/sha2'
 
-const { CID, multicodec, multibase, bytes } = multiformats
-multibase.add(base58)
-multicodec.add(dagCBOR)
-
-const encode = v => multicodec.encode(v, 'dag-cbor')
-const decode = v => multicodec.decode(v, 'dag-cbor')
+const config = {
+  base: base32,
+  base58btc,
+  hasher: sha256
+}
+const { cid } = multiformats(config)
+const { encode, decode } = configure(config)
 
 const test = it
 const same = assert.deepStrictEqual
@@ -19,14 +22,14 @@ const same = assert.deepStrictEqual
 describe('dag-cbor', () => {
   const obj = {
     someKey: 'someValue',
-    link: CID.from('QmRgutAxd8t7oGkSm4wmeuByG6M51wcTso6cubDdQtuEfL'),
+    link: cid.from('QmRgutAxd8t7oGkSm4wmeuByG6M51wcTso6cubDdQtuEfL'),
     links: [
-      CID.from('QmRgutAxd8t7oGkSm4wmeuByG6M51wcTso6cubDdQtuEfL'),
-      CID.from('QmRgutAxd8t7oGkSm4wmeuByG6M51wcTso6cubDdQtuEfL')
+      cid.from('QmRgutAxd8t7oGkSm4wmeuByG6M51wcTso6cubDdQtuEfL'),
+      cid.from('QmRgutAxd8t7oGkSm4wmeuByG6M51wcTso6cubDdQtuEfL')
     ],
     nested: {
       hello: 'world',
-      link: CID.from('QmRgutAxd8t7oGkSm4wmeuByG6M51wcTso6cubDdQtuEfL')
+      link: cid.from('QmRgutAxd8t7oGkSm4wmeuByG6M51wcTso6cubDdQtuEfL')
     },
     bytes: Buffer.from('asdf')
   }
@@ -54,7 +57,7 @@ describe('dag-cbor', () => {
     const deserialized = decode(serialized)
     same(largeObj, deserialized)
     // reset decoder to default
-    dagCBOR.configureDecoder()
+    configureDecoder()
   })
 
   test('.deserialize fail on large objects beyond maxSize', () => {
@@ -62,13 +65,13 @@ describe('dag-cbor', () => {
     const dataSize = (128 * 1024) + 1
     const largeObj = { someKey: [].slice.call(new Uint8Array(dataSize)) }
 
-    dagCBOR.configureDecoder({ size: 64 * 1024, maxSize: 128 * 1024 }) // 64 Kb start, 128 Kb max
+    configureDecoder({ size: 64 * 1024, maxSize: 128 * 1024 }) // 64 Kb start, 128 Kb max
     const serialized = encode(largeObj)
     same(bytes.isBinary(serialized), true)
 
     assert.throws(() => decode(serialized), /^Error: Data is too large to deserialize with current decoder$/)
     // reset decoder to default
-    dagCBOR.configureDecoder()
+    configureDecoder()
   })
 
   test('.deserialize fail on large objects beyond maxSize - omit size', () => {
@@ -76,13 +79,13 @@ describe('dag-cbor', () => {
     const dataSize = (128 * 1024) + 1
     const largeObj = { someKey: [].slice.call(new Uint8Array(dataSize)) }
 
-    dagCBOR.configureDecoder({ maxSize: 128 * 1024 }) // 64 Kb start, 128 Kb max
+    configureDecoder({ maxSize: 128 * 1024 }) // 64 Kb start, 128 Kb max
     const serialized = encode(largeObj)
     same(bytes.isBinary(serialized), true)
 
     assert.throws(() => decode(serialized), /^Error: Data is too large to deserialize with current decoder$/)
     // reset decoder to default
-    dagCBOR.configureDecoder()
+    configureDecoder()
   })
 
   test('.serialize and .deserialize object with slash as property', () => {
@@ -95,7 +98,7 @@ describe('dag-cbor', () => {
   test('CIDs have clean for deep comparison', () => {
     const deserializedObj = decode(serializedObj)
     // backing buffer must be pristine as some comparison libraries go that deep
-    const actual = new Uint8Array(deserializedObj.link.bytes.buffer).join(',')
+    const actual = deserializedObj.link.bytes.join(',')
     const expected = obj.link.bytes.join(',')
     same(actual, expected)
   })
@@ -116,10 +119,15 @@ describe('dag-cbor', () => {
   })
 
   test('CIDv1', () => {
-    const cid = CID.from('zdj7Wd8AMwqnhJGQCbFxBVodGSBG84TM7Hs1rcJuQMwTyfEDS')
-    const encoded = encode({ link: cid })
+    const { cid } = multiformats({ ...config, base: base58btc })
+    const { encode, decode } = configure({ ...config, base: base58btc })
+
+    const link = cid.from('zdj7Wd8AMwqnhJGQCbFxBVodGSBG84TM7Hs1rcJuQMwTyfEDS')
+    console.log({ ...link })
+
+    const encoded = encode({ link })
     const decoded = decode(encoded)
-    same(decoded, { link: cid })
+    same(decoded, { link })
   })
 
   test('encode and decode consistency  with Uint8Array and Buffer fields', () => {

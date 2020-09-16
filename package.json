@@ -31,7 +31,7 @@
   "dependencies": {
     "@ipld/is-circular": "git://github.com/gozala/is-circular#no-registry",
     "borc": "^2.1.2",
-    "multiformats": "git://github.com/gozala/js-multiformats#context-binding"
+    "multiformats": "git://github.com/multiformats/js-multiformats#context-binding"
   },
   "devDependencies": {
     "garbage": "0.0.0",

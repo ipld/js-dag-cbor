@@ -3,9 +3,8 @@
 import cbor from 'borc'
 import isCircular from '@ipld/is-circular'
 // @ts-ignore
-import { CID, bytes, codec } from 'multiformats'
-import { asCID } from "multiformats/cid"
-
+import { bytes, codec } from 'multiformats'
+import { asCID, decode as decodeCID } from 'multiformats/cid'
 
 // https://github.com/ipfs/go-ipfs/issues/3570#issuecomment-273931692
 const CID_CBOR_TAG = 42
@@ -18,7 +17,9 @@ function tagCID (cid) {
   const buffer = new Uint8Array(tag.byteLength + cid.bytes.byteLength)
   buffer.set(tag)
   buffer.set(cid.bytes, tag.byteLength)
-  return new cbor.Tagged(CID_CBOR_TAG, buffer, null)
+  const tagged = new cbor.Tagged(CID_CBOR_TAG, buffer, null)
+  // console.log('->', cid.bytes)
+  return tagged
 }
 
 function replaceCIDbyTAG (dagNode, config) {
@@ -65,13 +66,15 @@ function replaceCIDbyTAG (dagNode, config) {
 const defaultTags = {
   [CID_CBOR_TAG]: (val) => {
     // remove that 0
-    return CID.decode(val.subarray(1), cidConfig)
+    // console.log('<-', Uint8Array.from(val.subarray(1)))
+    return decodeCID(val.subarray(1), cidConfig)
   }
 }
 
 const defaultSize = 64 * 1024 // current decoder heap size, 64 Kb
-let currentSize = defaultSize
 const defaultMaxSize = 64 * 1024 * 1024 // max heap size when auto-growing, 64 Mb
+
+let currentSize = defaultSize
 let maxSize = defaultMaxSize
 let decoder = null
 let cidConfig = null
@@ -84,7 +87,7 @@ let cidConfig = null
  * @param {number} [options.maxSize=67108864] - The maximum size the CBOR parsing heap is allowed to grow to before `dagCBOR.util.deserialize()` returns an error
  * @param {Object} [options.tags] - An object whose keys are CBOR tag numbers and values are transform functions that accept a `value` and return a decoded representation of that `value`
  */
-const configureDecoder = (options) => {
+export const configureDecoder = (options) => {
   const tags = defaultTags
 
   if (options) {
@@ -109,6 +112,7 @@ const configureDecoder = (options) => {
   // borc edits opts.size in-place so we can capture _actual_ size
   currentSize = decoderOptions.size
 }
+configureDecoder()
 
 const encode = (node, config) => {
   const nodeTagged = replaceCIDbyTAG(node, config)
