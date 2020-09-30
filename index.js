@@ -3,8 +3,10 @@
 import cbor from 'borc'
 import isCircular from '@ipld/is-circular'
 // @ts-ignore
-import { bytes, codec } from 'multiformats'
-import { asCID, decode as decodeCID } from 'multiformats/cid'
+import { bytes, CID } from 'multiformats'
+
+const { asCID } = CID
+const decodeCID = CID.decode
 
 // https://github.com/ipfs/go-ipfs/issues/3570#issuecomment-273931692
 const CID_CBOR_TAG = 42
@@ -18,7 +20,6 @@ function tagCID (cid) {
   buffer.set(tag)
   buffer.set(cid.bytes, tag.byteLength)
   const tagged = new cbor.Tagged(CID_CBOR_TAG, buffer, null)
-  // console.log('->', cid.bytes)
   return tagged
 }
 
@@ -65,8 +66,6 @@ function replaceCIDbyTAG (dagNode, config) {
 
 const defaultTags = {
   [CID_CBOR_TAG]: (val) => {
-    // remove that 0
-    // console.log('<-', Uint8Array.from(val.subarray(1)))
     return decodeCID(val.subarray(1), cidConfig)
   }
 }
@@ -87,7 +86,7 @@ let cidConfig = null
  * @param {number} [options.maxSize=67108864] - The maximum size the CBOR parsing heap is allowed to grow to before `dagCBOR.util.deserialize()` returns an error
  * @param {Object} [options.tags] - An object whose keys are CBOR tag numbers and values are transform functions that accept a `value` and return a decoded representation of that `value`
  */
-export const configureDecoder = (options) => {
+const configureDecoder = (options) => {
   const tags = defaultTags
 
   if (options) {
@@ -139,16 +138,4 @@ const decode = (data, config) => {
   return all[0]
 }
 
-export default codec.codec({
-  name,
-  code,
-  encode,
-  decode
-})
-
-export const configure = (config) => codec.codec({
-  name,
-  code,
-  encode: (node) => encode(node, config),
-  decode: (bytes) => decode(bytes, config)
-})
+export { name, code, encode, decode, configureDecoder }
