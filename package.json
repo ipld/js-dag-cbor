@@ -1,6 +1,6 @@
 {
   "name": "@ipld/dag-cbor",
-  "version": "0.0.0",
+  "version": "0.0.0-dev",
   "description": "JS implementation of dag-cbor",
   "type": "module",
   "scripts": {
@@ -29,14 +29,14 @@
   },
   "homepage": "https://github.com/ipld/js-dag-cbor",
   "dependencies": {
-    "@ipld/is-circular": "npm:is-circular@^1.0.2",
+    "@ipld/is-circular": "^2.0.0",
     "borc": "^2.1.2",
     "multiformats": "^4.0.0"
   },
   "devDependencies": {
     "garbage": "0.0.0",
     "hundreds": "0.0.8",
-    "mocha": "^8.1.1",
+    "mocha": "^8.1.3",
     "polendina": "^1.1.0",
     "standard": "^14.3.4"
   },
