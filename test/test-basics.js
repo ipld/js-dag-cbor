@@ -1,28 +1,13 @@
 /* eslint-env mocha */
 'use strict'
-import garbage from 'garbage'
-import assert from 'assert'
-import { encode, decode, configureDecoder } from '../index.js'
+import garbage from 'ipld-garbage'
+import chai from 'chai'
+import { encode, decode } from '../index.js'
 import { bytes, CID } from 'multiformats'
 
+const { assert } = chai
 const test = it
-const _same = assert.deepStrictEqual
-
-const same = (x, y) => {
-  if (typeof x !== 'object') return _same(x, y)
-  const skip = { nested: null, bytes: null, multihash: null, digest: null, link: null }
-  for (const prop of Object.keys(skip)) {
-    if (x[prop]) same(x[prop], y[prop])
-  }
-  if (x.links) {
-    same(x.links.length, y.links.length)
-    for (let i = 0; i < x.links.length; i++) {
-      same(x[i], y[i])
-    }
-  }
-  skip.links = null
-  _same({ ...x, ...skip }, { ...y, ...skip })
-}
+const same = assert.deepStrictEqual
 
 describe('dag-cbor', () => {
   const obj = {
@@ -36,7 +21,7 @@ describe('dag-cbor', () => {
       hello: 'world',
       link: CID.parse('QmRgutAxd8t7oGkSm4wmeuByG6M51wcTso6cubDdQtuEfL')
     },
-    bytes: Buffer.from('asdf')
+    bytes: new TextEncoder().encode('asdf')
   }
   const serializedObj = encode(obj)
 
@@ -48,7 +33,7 @@ describe('dag-cbor', () => {
     same(bytes.toHex(serializedObj).match(/d82a/g).length, 4)
 
     const deserializedObj = decode(serializedObj)
-    same(obj, deserializedObj)
+    same(deserializedObj, obj)
   })
 
   test('.serialize and .deserialize large objects', () => {
@@ -61,36 +46,6 @@ describe('dag-cbor', () => {
 
     const deserialized = decode(serialized)
     same(largeObj, deserialized)
-    // reset decoder to default
-    configureDecoder()
-  })
-
-  test('.deserialize fail on large objects beyond maxSize', () => {
-    // larger than the default borc heap size, should bust the heap if we turn off auto-grow
-    const dataSize = (128 * 1024) + 1
-    const largeObj = { someKey: [].slice.call(new Uint8Array(dataSize)) }
-
-    configureDecoder({ size: 64 * 1024, maxSize: 128 * 1024 }) // 64 Kb start, 128 Kb max
-    const serialized = encode(largeObj)
-    same(bytes.isBinary(serialized), true)
-
-    assert.throws(() => decode(serialized), /^Error: Data is too large to deserialize with current decoder$/)
-    // reset decoder to default
-    configureDecoder()
-  })
-
-  test('.deserialize fail on large objects beyond maxSize - omit size', () => {
-    // larger than the default borc heap size, should bust the heap if we turn off auto-grow
-    const dataSize = (128 * 1024) + 1
-    const largeObj = { someKey: [].slice.call(new Uint8Array(dataSize)) }
-
-    configureDecoder({ maxSize: 128 * 1024 }) // 64 Kb start, 128 Kb max
-    const serialized = encode(largeObj)
-    same(bytes.isBinary(serialized), true)
-
-    assert.throws(() => decode(serialized), /^Error: Data is too large to deserialize with current decoder$/)
-    // reset decoder to default
-    configureDecoder()
   })
 
   test('.serialize and .deserialize object with slash as property', () => {
@@ -108,15 +63,24 @@ describe('dag-cbor', () => {
     same(actual, expected)
   })
 
-  test('error catching', () => {
-    const circlarObj = {}
-    circlarObj.a = circlarObj
-    assert.throws(() => encode(circlarObj), /^Error: The object passed has circular references$/)
+  test('error on circular references', () => {
+    const circularObj = {}
+    circularObj.a = circularObj
+    assert.throws(() => encode(circularObj), /object contains circular references/)
+    const circularArr = [circularObj]
+    circularObj.a = circularArr
+    assert.throws(() => encode(circularArr), /object contains circular references/)
+  })
+
+  test('error on encoding undefined', () => {
+    assert.throws(() => encode(undefined), /\Wundefined\W.*not supported/)
+    const objWithUndefined = { a: 'a', b: undefined }
+    assert.throws(() => encode(objWithUndefined), /\Wundefined\W.*not supported/)
   })
 
   test('fuzz serialize and deserialize with garbage', () => {
     for (let ii = 0; ii < 1000; ii++) {
-      const original = { in: garbage(100) }
+      const original = garbage(100)
       const encoded = encode(original)
       const decoded = decode(encoded)
       same(decoded, original)
@@ -125,13 +89,12 @@ describe('dag-cbor', () => {
 
   test('CIDv1', () => {
     const link = CID.parse('zdj7Wd8AMwqnhJGQCbFxBVodGSBG84TM7Hs1rcJuQMwTyfEDS')
-
     const encoded = encode({ link })
     const decoded = decode(encoded)
     same(decoded, { link })
   })
 
-  test('encode and decode consistency  with Uint8Array and Buffer fields', () => {
+  test('encode and decode consistency with Uint8Array and Buffer fields', () => {
     const buffer = Buffer.from('some data')
     const bytes = Uint8Array.from(buffer)
 
@@ -155,6 +118,13 @@ describe('dag-cbor', () => {
       // two top-level CBOR objects, the original and a single uint=0, valid if using
       // CBOR in streaming mode, not valid here
       decode(Buffer.concat([Buffer.from(serializedObj), Buffer.alloc(1)]))
-    }, /^Error: Extraneous CBOR data found beyond initial top-level object/)
+    }, /too many terminals/)
+  })
+
+  test('reject bad CID lead-in', () => {
+    // this is the same data as the CIDv1 produces but has the lead-in to the
+    // CID replaced with 0x01 .......................  ↓↓ here
+    const encoded = bytes.fromHex('a1646c696e6bd82a582501017012207252523e6591fb8fe553d67ff55a86f84044b46a3e4176e10c58fa529a4aabd5')
+    assert.throws(() => decode(encoded), /Invalid CID for CBOR tag 42; expected leading 0x00/)
   })
 })
