@@ -78,6 +78,46 @@ describe('dag-cbor', () => {
     assert.throws(() => encode(objWithUndefined), /\Wundefined\W.*not supported/)
   })
 
+  test('error on decoding undefined', () => {
+    // encoded forms from the encode() test above
+    assert.throws(() => decode(bytes.fromHex('f7')), /\Wundefined\W.*not supported/)
+    assert.throws(() => decode(bytes.fromHex('a2616161616162f7')), /\Wundefined\W.*not supported/)
+  })
+
+  test('error on encoding IEEE 754 specials', () => {
+    for (const special of [NaN, Infinity, -Infinity]) {
+      assert.throws(() => encode(special), new RegExp(`\\W${String(special)}\\W.*not supported`))
+      const objWithSpecial = { a: 'a', b: special }
+      assert.throws(() => encode(objWithSpecial), new RegExp(`\\W${String(special)}\\W.*not supported`))
+      const arrWithSpecial = [1, 1.1, -1, -1.1, Number.MAX_SAFE_INTEGER, special, Number.MIN_SAFE_INTEGER]
+      assert.throws(() => encode(arrWithSpecial), new RegExp(`\\W${String(special)}\\W.*not supported`))
+    }
+  })
+
+  test('error on decoding IEEE 754 specials', () => {
+    // encoded forms of each of the previous encode() tests
+    const cases = [
+      ['NaN', 'f97e00'],
+      ['NaN', 'f97ff8'],
+      ['NaN', 'fa7ff80000'],
+      ['NaN', 'fb7ff8000000000000'],
+      ['NaN', 'a2616161616162fb7ff8000000000000'],
+      ['NaN', '8701fb3ff199999999999a20fbbff199999999999a1b001ffffffffffffffb7ff80000000000003b001ffffffffffffe'],
+      ['Infinity', 'f97c00'],
+      ['Infinity', 'fb7ff0000000000000'],
+      ['Infinity', 'a2616161616162fb7ff0000000000000'],
+      ['Infinity', '8701fb3ff199999999999a20fbbff199999999999a1b001ffffffffffffffb7ff00000000000003b001ffffffffffffe'],
+      ['-Infinity', 'f9fc00'],
+      ['-Infinity', 'fbfff0000000000000'],
+      ['-Infinity', 'a2616161616162fbfff0000000000000'],
+      ['-Infinity', '8701fb3ff199999999999a20fbbff199999999999a1b001ffffffffffffffbfff00000000000003b001ffffffffffffe']
+    ]
+    for (const [typ, hex] of cases) {
+      const byts = bytes.fromHex(hex)
+      assert.throws(() => decode(byts), new RegExp(`\\W${typ.replace(/^-/, '')}\\W.*not supported`))
+    }
+  })
+
   test('fuzz serialize and deserialize with garbage', () => {
     for (let ii = 0; ii < 1000; ii++) {
       const original = garbage(100)
