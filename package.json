@@ -29,7 +29,7 @@
   },
   "homepage": "https://github.com/ipld/js-dag-cbor",
   "dependencies": {
-    "cborg": "^1.0.1",
+    "cborg": "^1.0.2",
     "multiformats": "^4.0.0"
   },
   "devDependencies": {

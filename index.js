@@ -33,11 +33,21 @@ function undefinedEncoder () {
   throw new Error('`undefined` is not supported by the IPLD Data Model and cannot be encoded')
 }
 
+function numberEncoder (num) {
+  if (Number.isNaN(num)) {
+    throw new Error('`NaN` is not supported by the IPLD Data Model and cannot be encoded')
+  }
+  if (num === Infinity || num === -Infinity) {
+    throw new Error('`Infinity` and `-Infinity` is not supported by the IPLD Data Model and cannot be encoded')
+  }
+}
+
 const encodeOptions = {
   float64: true,
   typeEncoders: {
     Object: cidEncoder,
-    undefined: undefinedEncoder
+    undefined: undefinedEncoder,
+    number: numberEncoder
   }
 }
 
@@ -55,6 +65,8 @@ function cidDecoder (bytes) {
 const decodeOptions = {
   allowIndefinite: false,
   allowUndefined: false,
+  allowNaN: false,
+  allowInfinity: false,
   allowBigInt: true, // this will lead to BigInt for ints outside of
   // safe-integer range, which may surprise users
   strict: true,
