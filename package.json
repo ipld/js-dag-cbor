@@ -29,13 +29,13 @@
   },
   "homepage": "https://github.com/ipld/js-dag-cbor",
   "dependencies": {
-    "cborg": "^1.0.2",
-    "multiformats": "^4.0.0"
+    "cborg": "^1.0.3",
+    "multiformats": "^4.4.3"
   },
   "devDependencies": {
     "chai": "^4.2.0",
-    "hundreds": "0.0.8",
-    "ipld-garbage": "^1.0.3",
+    "hundreds": "^0.0.9",
+    "ipld-garbage": "^2.0.0",
     "mocha": "^8.2.1",
     "polendina": "^1.1.0",
     "standard": "^16.0.3"
