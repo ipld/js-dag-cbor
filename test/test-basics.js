@@ -118,7 +118,8 @@ describe('dag-cbor', () => {
     }
   })
 
-  test('fuzz serialize and deserialize with garbage', () => {
+  test('fuzz serialize and deserialize with garbage', function () {
+    this.timeout(5000)
     for (let ii = 0; ii < 1000; ii++) {
       const original = garbage(100)
       const encoded = encode(original)
