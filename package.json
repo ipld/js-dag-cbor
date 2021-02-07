@@ -3,6 +3,7 @@
   "version": "0.0.0-dev",
   "description": "JS implementation of dag-cbor",
   "type": "module",
+  "typings": "index.d.ts",
   "scripts": {
     "lint": "standard",
     "build": "npm_config_yes=true npx ipjs@latest build --tests",
