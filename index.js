@@ -12,6 +12,10 @@ const name = 'dag-cbor'
 
 // this will receive all Objects, we need to filter out anything that's not
 // a CID and return `null` for that so it's encoded as normal
+/**
+ * @param {any} obj
+ * @returns {cborg.Token[]|null}
+ */
 function cidEncoder (obj) {
   if (obj.asCID !== obj) {
     return null // any other kind of object
@@ -30,10 +34,17 @@ function cidEncoder (obj) {
   ]
 }
 
+/**
+ * @returns {null}
+ */
 function undefinedEncoder () {
   throw new Error('`undefined` is not supported by the IPLD Data Model and cannot be encoded')
 }
 
+/**
+ * @param {number} num
+ * @returns {null}
+ */
 function numberEncoder (num) {
   if (Number.isNaN(num)) {
     throw new Error('`NaN` is not supported by the IPLD Data Model and cannot be encoded')
@@ -41,6 +52,7 @@ function numberEncoder (num) {
   if (num === Infinity || num === -Infinity) {
     throw new Error('`Infinity` and `-Infinity` is not supported by the IPLD Data Model and cannot be encoded')
   }
+  return null
 }
 
 const encodeOptions = {
@@ -52,10 +64,18 @@ const encodeOptions = {
   }
 }
 
+/**
+ * @param {any} node
+ * @returns {Uint8Array}
+ */
 function encode (node) {
   return cborg.encode(node, encodeOptions)
 }
 
+/**
+ * @param {Uint8Array} bytes
+ * @returns {CID}
+ */
 function cidDecoder (bytes) {
   if (bytes[0] !== 0) {
     throw new Error('Invalid CID for CBOR tag 42; expected leading 0x00')
@@ -63,6 +83,9 @@ function cidDecoder (bytes) {
   return CID.decode(bytes.subarray(1)) // ignore leading 0x00
 }
 
+/**
+ * @type {cborg.DecodeOptions}
+ */
 const decodeOptions = {
   allowIndefinite: false,
   allowUndefined: false,
@@ -71,11 +94,15 @@ const decodeOptions = {
   allowBigInt: true, // this will lead to BigInt for ints outside of
   // safe-integer range, which may surprise users
   strict: true,
-  useMaps: false,
-  tags: []
+  useMaps: false
 }
+decodeOptions.tags = []
 decodeOptions.tags[CID_CBOR_TAG] = cidDecoder
 
+/**
+ * @param {Uint8Array} data
+ * @returns {any}
+ */
 function decode (data) {
   return cborg.decode(data, decodeOptions)
 }
