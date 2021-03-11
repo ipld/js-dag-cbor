@@ -2,7 +2,8 @@
 
 import * as cborg from 'cborg'
 // @ts-ignore
-import { CID } from 'multiformats'
+import CID from 'multiformats/cid'
+import { codec } from 'multiformats/codecs/codec'
 
 // https://github.com/ipfs/go-ipfs/issues/3570#issuecomment-273931692
 const CID_CBOR_TAG = 42
@@ -79,4 +80,4 @@ function decode (data) {
   return cborg.decode(data, decodeOptions)
 }
 
-export { name, code, encode, decode }
+export default codec({ name, code, encode, decode })
