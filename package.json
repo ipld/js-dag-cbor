@@ -3,9 +3,13 @@
   "version": "0.0.0-dev",
   "description": "JS implementation of dag-cbor",
   "type": "module",
+  "types": "index.d.ts",
   "scripts": {
     "lint": "standard",
-    "build": "npm_config_yes=true npx ipjs@latest build --tests",
+    "build": "npm run build:js && npm run build:types",
+    "build:js": "npm_config_yes=true npx ipjs@latest build --tests",
+    "build:types": "tsc --build",
+    "check": "tsc --build --noEmit --noErrorTruncation",
     "publish": "npm_config_yes=true npx ipjs@latest publish",
     "test:cjs": "npm run build && mocha dist/cjs/node-test/test-*.js",
     "test:node": "hundreds mocha test/test-*.js",
@@ -29,16 +33,17 @@
   },
   "homepage": "https://github.com/ipld/js-dag-cbor",
   "dependencies": {
-    "cborg": "^1.0.3",
-    "multiformats": "^4.4.3"
+    "cborg": "^1.1.2",
+    "multiformats": "^4.6.1"
   },
   "devDependencies": {
-    "chai": "^4.2.0",
+    "chai": "^4.3.3",
     "hundreds": "^0.0.9",
     "ipld-garbage": "^2.0.0",
-    "mocha": "^8.2.1",
+    "mocha": "^8.3.1",
     "polendina": "^1.1.0",
-    "standard": "^16.0.3"
+    "standard": "^16.0.3",
+    "typescript": "^4.2.3"
   },
   "directories": {
     "test": "test"

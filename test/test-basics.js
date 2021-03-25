@@ -2,9 +2,10 @@
 'use strict'
 import garbage from 'ipld-garbage'
 import chai from 'chai'
-import { encode, decode } from '../index.js'
+import dagcbor from '../index.js'
 import { bytes, CID } from 'multiformats'
 
+const { encode, decode } = dagcbor
 const { assert } = chai
 const test = it
 const same = assert.deepStrictEqual

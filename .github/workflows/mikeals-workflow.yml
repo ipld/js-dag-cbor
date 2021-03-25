@@ -1,6 +1,22 @@
 on: [push, pull_request]
-name: Build, Test and maybe Publish
+name: Build, Typechek, Test and maybe Publish
 jobs:
+  typecheck:
+    name: Typecheck
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Cache node_modules
+      id: cache-modules
+      uses: actions/cache@v1
+      with:
+        path: node_modules
+        key: 12.x-${{ runner.OS }}-build-${{ hashFiles('package.json') }}
+    - name: Build
+      if: steps.cache-modules.outputs.cache-hit != 'true'
+      run: npm install
+    - name: Typecheck
+      uses: gozala/typescript-error-reporter-action@v1.0.8
   test:
     name: Build & Test
     runs-on: ubuntu-latest
