@@ -81,9 +81,6 @@ function cidDecoder (bytes) {
   return CID.decode(bytes.subarray(1)) // ignore leading 0x00
 }
 
-/**
- * @type {cborg.DecodeOptions}
- */
 const decodeOptions = {
   allowIndefinite: false,
   allowUndefined: false,
