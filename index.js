@@ -96,7 +96,7 @@ decodeOptions.tags[CID_CBOR_TAG] = cidDecoder
 
 /**
  * @template T
- * @param {Uint8Array} data 
+ * @param {Uint8Array} data
  * @returns {T}
  */
 function decode (data) {
