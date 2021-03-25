@@ -1,7 +1,4 @@
-// @ts-check
-
 import * as cborg from 'cborg'
-// @ts-ignore
 import CID from 'multiformats/cid'
 import { codec } from 'multiformats/codecs/codec'
 
@@ -65,7 +62,8 @@ const encodeOptions = {
 }
 
 /**
- * @param {any} node
+ * @template T
+ * @param {T} node
  * @returns {Uint8Array}
  */
 function encode (node) {
@@ -83,9 +81,6 @@ function cidDecoder (bytes) {
   return CID.decode(bytes.subarray(1)) // ignore leading 0x00
 }
 
-/**
- * @type {cborg.DecodeOptions}
- */
 const decodeOptions = {
   allowIndefinite: false,
   allowUndefined: false,
@@ -94,14 +89,16 @@ const decodeOptions = {
   allowBigInt: true, // this will lead to BigInt for ints outside of
   // safe-integer range, which may surprise users
   strict: true,
-  useMaps: false
+  useMaps: false,
+  /** @type {import('cborg').TagDecoder[]} */
+  tags: []
 }
-decodeOptions.tags = []
 decodeOptions.tags[CID_CBOR_TAG] = cidDecoder
 
 /**
+ * @template T
  * @param {Uint8Array} data
- * @returns {any}
+ * @returns {T}
  */
 function decode (data) {
   return cborg.decode(data, decodeOptions)
