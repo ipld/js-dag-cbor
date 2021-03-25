@@ -1,16 +1,17 @@
 import * as cborg from 'cborg'
-import { CID } from 'multiformats'
+import CID from 'multiformats/cid'
+import { codec } from 'multiformats/codecs/codec'
 
 // https://github.com/ipfs/go-ipfs/issues/3570#issuecomment-273931692
 const CID_CBOR_TAG = 42
 const code = 0x71
 const name = 'dag-cbor'
 
+// this will receive all Objects, we need to filter out anything that's not
+// a CID and return `null` for that so it's encoded as normal
 /**
- * this will receive all Objects, we need to filter out anything that's not
- * a CID and return `null` for that so it's encoded as normal
- *
  * @param {any} obj
+ * @returns {cborg.Token[]|null}
  */
 function cidEncoder (obj) {
   if (obj.asCID !== obj) {
@@ -31,14 +32,14 @@ function cidEncoder (obj) {
 }
 
 /**
- * @returns {never}
+ * @returns {null}
  */
 function undefinedEncoder () {
   throw new Error('`undefined` is not supported by the IPLD Data Model and cannot be encoded')
 }
 
 /**
- * @param {any} num
+ * @param {number} num
  * @returns {null}
  */
 function numberEncoder (num) {
@@ -80,6 +81,9 @@ function cidDecoder (bytes) {
   return CID.decode(bytes.subarray(1)) // ignore leading 0x00
 }
 
+/**
+ * @type {cborg.DecodeOptions}
+ */
 const decodeOptions = {
   allowIndefinite: false,
   allowUndefined: false,
@@ -103,4 +107,4 @@ function decode (data) {
   return cborg.decode(data, decodeOptions)
 }
 
-export { name, code, encode, decode }
+export default codec({ name, code, encode, decode })
