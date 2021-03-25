@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "lint": "standard",
-    "build": "npm_config_yes=true npx ipjs@latest build --tests",
+    "build": "npm_config_yes=true npx ipjs@latest build --tests && npm run build:types",
+    "build:types": "tsc --build",
     "publish": "npm_config_yes=true npx ipjs@latest publish",
     "test:cjs": "npm run build && mocha dist/cjs/node-test/test-*.js",
     "test:node": "hundreds mocha test/test-*.js",
@@ -13,6 +14,7 @@
     "test": "npm run lint && npm run test:node && npm run test:cjs && npm run test:browser",
     "coverage": "c8 --reporter=html mocha test/test-*.js && npx st -d coverage -p 8080"
   },
+  "types": "./types/index.d.ts",
   "exports": {
     "import": "./index.js"
   },
@@ -38,7 +40,8 @@
     "ipld-garbage": "^2.0.0",
     "mocha": "^8.2.1",
     "polendina": "^1.1.0",
-    "standard": "^16.0.3"
+    "standard": "^16.0.3",
+    "typescript": "^4.2.3"
   },
   "directories": {
     "test": "test"

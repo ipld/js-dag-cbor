@@ -1,7 +1,4 @@
-// @ts-check
-
 import * as cborg from 'cborg'
-// @ts-ignore
 import { CID } from 'multiformats'
 
 // https://github.com/ipfs/go-ipfs/issues/3570#issuecomment-273931692
@@ -9,8 +6,12 @@ const CID_CBOR_TAG = 42
 const code = 0x71
 const name = 'dag-cbor'
 
-// this will receive all Objects, we need to filter out anything that's not
-// a CID and return `null` for that so it's encoded as normal
+/**
+ * this will receive all Objects, we need to filter out anything that's not
+ * a CID and return `null` for that so it's encoded as normal
+ *
+ * @param {any} obj
+ */
 function cidEncoder (obj) {
   if (obj.asCID !== obj) {
     return null // any other kind of object
@@ -29,10 +30,17 @@ function cidEncoder (obj) {
   ]
 }
 
+/**
+ * @returns {never}
+ */
 function undefinedEncoder () {
   throw new Error('`undefined` is not supported by the IPLD Data Model and cannot be encoded')
 }
 
+/**
+ * @param {any} num
+ * @returns {null}
+ */
 function numberEncoder (num) {
   if (Number.isNaN(num)) {
     throw new Error('`NaN` is not supported by the IPLD Data Model and cannot be encoded')
@@ -40,6 +48,7 @@ function numberEncoder (num) {
   if (num === Infinity || num === -Infinity) {
     throw new Error('`Infinity` and `-Infinity` is not supported by the IPLD Data Model and cannot be encoded')
   }
+  return null
 }
 
 const encodeOptions = {
@@ -51,10 +60,19 @@ const encodeOptions = {
   }
 }
 
+/**
+ * @template T
+ * @param {T} node
+ * @returns {Uint8Array}
+ */
 function encode (node) {
   return cborg.encode(node, encodeOptions)
 }
 
+/**
+ * @param {Uint8Array} bytes
+ * @returns {CID}
+ */
 function cidDecoder (bytes) {
   if (bytes[0] !== 0) {
     throw new Error('Invalid CID for CBOR tag 42; expected leading 0x00')
@@ -71,10 +89,16 @@ const decodeOptions = {
   // safe-integer range, which may surprise users
   strict: true,
   useMaps: false,
+  /** @type {import('cborg').TagDecoder[]} */
   tags: []
 }
 decodeOptions.tags[CID_CBOR_TAG] = cidDecoder
 
+/**
+ * @template T
+ * @param {Uint8Array} data 
+ * @returns {T}
+ */
 function decode (data) {
   return cborg.decode(data, decodeOptions)
 }
