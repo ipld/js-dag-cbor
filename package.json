@@ -3,7 +3,7 @@
   "version": "0.0.0-dev",
   "description": "JS implementation of dag-cbor",
   "type": "module",
-  "types": "dist/index.d.ts",
+  "types": "index.d.ts",
   "scripts": {
     "lint": "standard",
     "build": "npm run build:js && npm run build:types",
