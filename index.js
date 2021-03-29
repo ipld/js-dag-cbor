@@ -1,15 +1,20 @@
 import * as cborg from 'cborg'
-import CID from 'multiformats/cid'
-import { codec } from 'multiformats/codecs/codec'
+import { CID } from 'multiformats/cid'
+
+/**
+ * @template {number} Code
+ * @template T
+ * @typedef {import('multiformats/codecs/interface').BlockCodec<Code, T>} BlockCodec
+ */
 
 // https://github.com/ipfs/go-ipfs/issues/3570#issuecomment-273931692
 const CID_CBOR_TAG = 42
-const code = 0x71
-const name = 'dag-cbor'
 
-// this will receive all Objects, we need to filter out anything that's not
-// a CID and return `null` for that so it's encoded as normal
 /**
+ * cidEncoder will receive all Objects during encode, it needs to filter out
+ * anything that's not a CID and return `null` for that so it's encoded as
+ * normal.
+ *
  * @param {any} obj
  * @returns {cborg.Token[]|null}
  */
@@ -32,6 +37,9 @@ function cidEncoder (obj) {
 }
 
 /**
+ * Intercept all `undefined` values from an object walk and reject the entire
+ * object if we find one.
+ *
  * @returns {null}
  */
 function undefinedEncoder () {
@@ -39,6 +47,10 @@ function undefinedEncoder () {
 }
 
 /**
+ * Intercept all `number` values from an object walk and reject the entire
+ * object if we find something that doesn't fit the IPLD data model (NaN &
+ * Infinity).
+ *
  * @param {number} num
  * @returns {null}
  */
@@ -59,15 +71,6 @@ const encodeOptions = {
     undefined: undefinedEncoder,
     number: numberEncoder
   }
-}
-
-/**
- * @template T
- * @param {T} node
- * @returns {Uint8Array}
- */
-function encode (node) {
-  return cborg.encode(node, encodeOptions)
 }
 
 /**
@@ -97,11 +100,21 @@ decodeOptions.tags[CID_CBOR_TAG] = cidDecoder
 
 /**
  * @template T
- * @param {Uint8Array} data
- * @returns {T}
+ * @type {BlockCodec<0x71, T>}
  */
-function decode (data) {
-  return cborg.decode(data, decodeOptions)
+export const { name, code, decode, encode } = {
+  name: 'dag-cbor',
+  code: 0x71,
+  /**
+   * @template T
+   * @param {T} node
+   * @returns {Uint8Array}
+   */
+  encode: (node) => cborg.encode(node, encodeOptions),
+  /**
+   * @template T
+   * @param {Uint8Array} data
+   * @returns {T}
+   */
+  decode: (data) => cborg.decode(data, decodeOptions)
 }
-
-export default codec({ name, code, encode, decode })

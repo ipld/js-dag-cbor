@@ -1,8 +1,8 @@
 /* eslint-env mocha */
 'use strict'
-import garbage from 'ipld-garbage'
+import { garbage } from 'ipld-garbage'
 import chai from 'chai'
-import dagcbor from '../index.js'
+import * as dagcbor from '../index.js'
 import { bytes, CID } from 'multiformats'
 
 const { encode, decode } = dagcbor
