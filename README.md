@@ -9,7 +9,7 @@ used in IPFS. That library is [here](https://github.com/ipld/js-ipld-dag-cbor).
 Usage:
 
 ```javascript
-import { encode, decode } from '@ipld/dag-cbor'
+import cbor from '@ipld/dag-cbor'
 import { CID } from 'multiformats'
 
 const obj = {
@@ -23,8 +23,8 @@ const obj = {
   }
 }
 
-let data = encode(obj)
-let decoded = decode(data)
+let data = cbor.encode(obj)
+let decoded = cbor.decode(data)
 decoded.y[0] // 2
 CID.asCID(decoded.z.a) // cid instance
 ```
