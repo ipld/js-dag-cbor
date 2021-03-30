@@ -4,7 +4,9 @@ import { Decoder, Encoder } from 'multiformats/codecs/codec'
 
 // https://github.com/ipfs/go-ipfs/issues/3570#issuecomment-273931692
 const CID_CBOR_TAG = 42
+/** @type {number} */
 const code = 0x71
+/** @type {string} */
 const name = 'dag-cbor'
 
 // this will receive all Objects, we need to filter out anything that's not
