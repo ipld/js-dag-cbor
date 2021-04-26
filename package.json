@@ -1,52 +1,66 @@
 {
   "name": "@ipld/dag-cbor",
   "version": "0.0.0-dev",
-  "description": "JS implementation of dag-cbor",
+  "description": "JS implementation of DAG-CBOR",
+  "main": "index.js",
+  "types": "./types/index.d.ts",
   "type": "module",
-  "types": "index.d.ts",
   "scripts": {
-    "lint": "standard",
+    "lint": "standard *.js test/*.js",
     "build": "npm run build:js && npm run build:types",
-    "build:js": "npm_config_yes=true npx ipjs@latest build --tests",
-    "build:types": "tsc --build",
-    "check": "tsc --build --noEmit --noErrorTruncation",
-    "publish": "npm_config_yes=true npx ipjs@latest publish",
-    "test:cjs": "npm run build && mocha dist/cjs/node-test/test-*.js",
+    "build:js": "ipjs build --tests --main && npm run build:copy",
+    "build:copy": "cp -a tsconfig.json index.js dist/ && mkdir -p dist/test && cp test/*.js dist/test/",
+    "build:types": "npm run build:copy && cd dist && tsc --build",
+    "publish": "ipjs publish",
+    "test:cjs": "npm run build:js && mocha dist/cjs/node-test/test-*.js && npm run test:cjs:browser",
     "test:node": "hundreds mocha test/test-*.js",
-    "test:browser": "polendina --cleanup dist/cjs/node-test/test-*.js",
-    "test": "npm run lint && npm run test:node && npm run test:cjs && npm run test:browser",
-    "coverage": "c8 --reporter=html mocha test/test-*.js && npx st -d coverage -p 8080"
+    "test:cjs:browser": "polendina --page --worker --serviceworker --cleanup dist/cjs/node-test/test-*.js",
+    "test:ts": "npm run build:types && npm run test --prefix test/ts-use",
+    "test": "npm run lint && npm run test:node && npm run test:cjs && npm run test:ts",
+    "coverage": "c8 --reporter=html mocha test/test-*.js && npm_config_yes=true npx st -d coverage -p 8080"
   },
   "exports": {
     "import": "./index.js"
   },
+  "license": "(Apache-2.0 AND MIT)",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ipld/js-dag-cbor.git"
   },
   "keywords": [
-    "IPFS"
+    "IPFS",
+    "IPLD"
   ],
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/ipld/js-dag-cbor/issues"
   },
   "homepage": "https://github.com/ipld/js-dag-cbor",
   "dependencies": {
-    "cborg": "^1.1.2",
-    "multiformats": "^4.6.1"
+    "cborg": "^1.2.1",
+    "multiformats": "^7.0.0"
   },
   "devDependencies": {
-    "chai": "^4.3.3",
+    "chai": "^4.3.4",
     "hundreds": "^0.0.9",
-    "ipld-garbage": "^2.0.0",
-    "mocha": "^8.3.1",
+    "ipjs": "^5.0.0",
+    "ipld-garbage": "^3.0.0",
+    "mocha": "^8.3.2",
     "polendina": "^1.1.0",
     "standard": "^16.0.3",
-    "typescript": "^4.2.3"
+    "typescript": "^4.2.4"
   },
   "directories": {
     "test": "test"
+  },
+  "typesVersions": {
+    "*": {
+      "*": [
+        "types/*"
+      ],
+      "types/*": [
+        "types/*"
+      ]
+    }
   },
   "author": "Mikeal Rogers <mikeal.rogers@gmail.com> (https://www.mikealrogers.com/)"
 }
