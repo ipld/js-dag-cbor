@@ -98,23 +98,19 @@ const decodeOptions = {
 }
 decodeOptions.tags[CID_CBOR_TAG] = cidDecoder
 
+export const name = 'dag-cbor'
+export const code = 0x71
+
 /**
  * @template T
- * @type {BlockCodec<0x71, T>}
+ * @param {T} node
+ * @returns {Uint8Array}
  */
-export const { name, code, decode, encode } = {
-  name: 'dag-cbor',
-  code: 0x71,
-  /**
-   * @template T
-   * @param {T} node
-   * @returns {Uint8Array}
-   */
-  encode: (node) => cborg.encode(node, encodeOptions),
-  /**
-   * @template T
-   * @param {Uint8Array} data
-   * @returns {T}
-   */
-  decode: (data) => cborg.decode(data, decodeOptions)
-}
+export const encode = (node) => cborg.encode(node, encodeOptions)
+
+/**
+ * @template T
+ * @param {Uint8Array} data
+ * @returns {T}
+ */
+export const decode = (data) => cborg.decode(data, decodeOptions)
