@@ -3,7 +3,7 @@
     "strict": true,
     "moduleResolution": "node",
     "noImplicitAny": true,
-    "skipLibCheck": true,
+    "skipLibCheck": false,
     "incremental": true
   }
 }
