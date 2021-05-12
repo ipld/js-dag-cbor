@@ -1,12 +1,6 @@
 import * as cborg from 'cborg'
 import { CID } from 'multiformats/cid'
 
-/**
- * @template {number} Code
- * @template T
- * @typedef {import('multiformats/codecs/interface').BlockCodec<Code, T>} BlockCodec
- */
-
 // https://github.com/ipfs/go-ipfs/issues/3570#issuecomment-273931692
 const CID_CBOR_TAG = 42
 
