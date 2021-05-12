@@ -5,6 +5,11 @@ import { CID } from 'multiformats/cid'
 const CID_CBOR_TAG = 42
 
 /**
+ * @template T
+ * @typedef {import('multiformats/codecs/interface').ByteView<T>} ByteView
+*/
+
+/**
  * cidEncoder will receive all Objects during encode, it needs to filter out
  * anything that's not a CID and return `null` for that so it's encoded as
  * normal.
@@ -98,13 +103,13 @@ export const code = 0x71
 /**
  * @template T
  * @param {T} node
- * @returns {Uint8Array}
+ * @returns {ByteView<T>}
  */
 export const encode = (node) => cborg.encode(node, encodeOptions)
 
 /**
  * @template T
- * @param {Uint8Array} data
+ * @param {ByteView<T>} data
  * @returns {T}
  */
 export const decode = (data) => cborg.decode(data, decodeOptions)
