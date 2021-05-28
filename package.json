@@ -43,7 +43,7 @@
     "chai": "^4.3.4",
     "hundreds": "^0.0.9",
     "ipjs": "^5.0.0",
-    "ipld-garbage": "^3.0.0",
+    "ipld-garbage": "^4.0.1",
     "mocha": "^8.3.2",
     "polendina": "^1.1.0",
     "standard": "^16.0.3",
