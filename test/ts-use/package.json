@@ -6,6 +6,6 @@
     "multiformats": "file:../../node_modules/multiformats"
   },
   "scripts": {
-    "test": "npm install && npx -p typescript tsc && node src/main.js"
+    "test": "npm install && npm_config_yes=true npx -p typescript tsc && node src/main.js"
   }
 }
