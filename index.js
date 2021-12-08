@@ -85,7 +85,7 @@ function cidDecoder (bytes) {
 
 const decodeOptions = {
   allowIndefinite: false,
-  allowUndefined: false,
+  coerceUndefinedToNull: true,
   allowNaN: false,
   allowInfinity: false,
   allowBigInt: true, // this will lead to BigInt for ints outside of
