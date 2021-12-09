@@ -1,3 +1,15 @@
+### [6.0.15](https://github.com/ipld/js-dag-cbor/compare/v6.0.14...v6.0.15) (2021-12-09)
+
+
+### Bug Fixes
+
+* update dep descriptors ([22dd509](https://github.com/ipld/js-dag-cbor/commit/22dd509bfa76a98d847277e4856fcd961cb71e6d))
+
+
+### Trivial Changes
+
+* use semantic-release, update testing ([e1f6252](https://github.com/ipld/js-dag-cbor/commit/e1f6252914fb3df1308905d2c30e4c333d37dfb5))
+
 <a name="0.15.2"></a>
 ## [0.15.2](https://github.com/ipld/js-ipld-dag-cbor/compare/v0.15.1...v0.15.2) (2020-03-27)
 
@@ -353,6 +365,3 @@ to
 
 <a name="0.1.0"></a>
 # 0.1.0 (2015-09-01)
-
-
-
