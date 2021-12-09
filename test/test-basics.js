@@ -1,5 +1,6 @@
 /* eslint-env mocha */
-'use strict'
+
+import { Buffer } from 'buffer'
 import { garbage } from 'ipld-garbage'
 import chai from 'chai'
 import * as dagcbor from '../index.js'
@@ -159,7 +160,9 @@ describe('dag-cbor', () => {
     assert.throws(() => {
       // two top-level CBOR objects, the original and a single uint=0, valid if using
       // CBOR in streaming mode, not valid here
-      decode(Buffer.concat([Buffer.from(serializedObj), Buffer.alloc(1)]))
+      const big = new Uint8Array(serializedObj.length + 1)
+      big.set(serializedObj, 0)
+      decode(big)
     }, /too many terminals/)
   })
 
