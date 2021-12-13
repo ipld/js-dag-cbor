@@ -1,3 +1,14 @@
+## [7.0.0](https://github.com/ipld/js-dag-cbor/compare/v6.0.15...v7.0.0) (2021-12-13)
+
+
+### ⚠ BREAKING CHANGES
+
+* coerce undefined to null on decode
+
+### Features
+
+* coerce undefined to null on decode ([8145728](https://github.com/ipld/js-dag-cbor/commit/8145728a1aaf6c5c80c3f600e1f8c621846427af))
+
 ### [6.0.15](https://github.com/ipld/js-dag-cbor/compare/v6.0.14...v6.0.15) (2021-12-09)
 
 
