@@ -1,3 +1,13 @@
+### [7.0.1](https://github.com/ipld/js-dag-cbor/compare/v7.0.0...v7.0.1) (2022-03-02)
+
+
+### Trivial Changes
+
+* **deps-dev:** bump typescript from 4.5.5 to 4.6.2 ([#53](https://github.com/ipld/js-dag-cbor/issues/53)) ([dae80a2](https://github.com/ipld/js-dag-cbor/commit/dae80a2ff6a1675f7f19c796d50a5ada6537b51e))
+* **no-release:** bump actions/checkout from 2.4.0 to 3 ([#52](https://github.com/ipld/js-dag-cbor/issues/52)) ([4dfdf4e](https://github.com/ipld/js-dag-cbor/commit/4dfdf4e313d9f8457ce3127a9ca3df5976912c0e))
+* **no-release:** bump actions/setup-node from 2.5.0 to 2.5.1 ([#49](https://github.com/ipld/js-dag-cbor/issues/49)) ([e3cd6e9](https://github.com/ipld/js-dag-cbor/commit/e3cd6e9cbc4ddae58e954d4bccc7830e6de681fb))
+* **no-release:** bump actions/setup-node from 2.5.1 to 3.0.0 ([#51](https://github.com/ipld/js-dag-cbor/issues/51)) ([b0a94de](https://github.com/ipld/js-dag-cbor/commit/b0a94de18a699eb7727d29be4821fcea55bde97e))
+
 ## [7.0.0](https://github.com/ipld/js-dag-cbor/compare/v6.0.15...v7.0.0) (2021-12-13)
 
 
