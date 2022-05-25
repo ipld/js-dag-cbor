@@ -1,3 +1,17 @@
+### [7.0.2](https://github.com/ipld/js-dag-cbor/compare/v7.0.1...v7.0.2) (2022-05-25)
+
+
+### Trivial Changes
+
+* **deps-dev:** bump typescript from 4.6.4 to 4.7.2 ([a4e2e3b](https://github.com/ipld/js-dag-cbor/commit/a4e2e3b749ce315432545dc5bce7c6c6a56a9b9b))
+* **no-release:** bump actions/setup-node from 3.0.0 to 3.1.0 ([#54](https://github.com/ipld/js-dag-cbor/issues/54)) ([bf33215](https://github.com/ipld/js-dag-cbor/commit/bf332155724fb83643286374084783d27a03664a))
+* **no-release:** bump actions/setup-node from 3.1.0 to 3.1.1 ([#55](https://github.com/ipld/js-dag-cbor/issues/55)) ([ba23a66](https://github.com/ipld/js-dag-cbor/commit/ba23a6627ea7dfb72caf07234424efaf0b1242e7))
+* **no-release:** bump actions/setup-node from 3.1.1 to 3.2.0 ([#61](https://github.com/ipld/js-dag-cbor/issues/61)) ([ac1f42e](https://github.com/ipld/js-dag-cbor/commit/ac1f42efd8a254f5ebf90d17ebd2443f6159a44d))
+* **no-release:** bump mocha from 9.2.2 to 10.0.0 ([#58](https://github.com/ipld/js-dag-cbor/issues/58)) ([c024006](https://github.com/ipld/js-dag-cbor/commit/c024006bc30b0000aca57e3573d4c77e1195ade9))
+* **no-release:** bump polendina from 2.0.15 to 3.0.0 ([#59](https://github.com/ipld/js-dag-cbor/issues/59)) ([929ff18](https://github.com/ipld/js-dag-cbor/commit/929ff1819a0368a3449eafeab1fce5c385fa734c))
+* **no-release:** bump polendina from 3.0.0 to 3.1.0 ([#60](https://github.com/ipld/js-dag-cbor/issues/60)) ([ce5616b](https://github.com/ipld/js-dag-cbor/commit/ce5616b6227fa9355d8a3d02a5e796121f7c501b))
+* **no-release:** bump standard from 16.0.4 to 17.0.0 ([#56](https://github.com/ipld/js-dag-cbor/issues/56)) ([0095b44](https://github.com/ipld/js-dag-cbor/commit/0095b441b40745ee53aa8c6edf81d70387cc052e))
+
 ### [7.0.1](https://github.com/ipld/js-dag-cbor/compare/v7.0.0...v7.0.1) (2022-03-02)
 
 
