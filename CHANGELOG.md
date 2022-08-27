@@ -1,3 +1,14 @@
+## [7.0.3](https://github.com/ipld/js-dag-cbor/compare/v7.0.2...v7.0.3) (2022-08-27)
+
+
+### Trivial Changes
+
+* **deps-dev:** bump typescript from 4.7.4 to 4.8.2 ([#67](https://github.com/ipld/js-dag-cbor/issues/67)) ([3338761](https://github.com/ipld/js-dag-cbor/commit/3338761129e01245fe15eb954bc79c8f481095b1))
+* **no-release:** bump actions/setup-node from 3.2.0 to 3.3.0 ([#63](https://github.com/ipld/js-dag-cbor/issues/63)) ([c6249cb](https://github.com/ipld/js-dag-cbor/commit/c6249cbb6a9f0cbbcae1dd021b5d2b4362b47323))
+* **no-release:** bump actions/setup-node from 3.3.0 to 3.4.0 ([#65](https://github.com/ipld/js-dag-cbor/issues/65)) ([ec1f3ef](https://github.com/ipld/js-dag-cbor/commit/ec1f3efd11523b5084aed0b0d4e78b41f7797011))
+* **no-release:** bump actions/setup-node from 3.4.0 to 3.4.1 ([#66](https://github.com/ipld/js-dag-cbor/issues/66)) ([e2e20cf](https://github.com/ipld/js-dag-cbor/commit/e2e20cfbe0ce0b25e3dfc0cffc06fab89a5b8811))
+* **no-release:** bump ipld-garbage from 4.0.10 to 5.0.0 ([#64](https://github.com/ipld/js-dag-cbor/issues/64)) ([80f71cb](https://github.com/ipld/js-dag-cbor/commit/80f71cb038a60de05225fa48be8d3759457155b1))
+
 ### [7.0.2](https://github.com/ipld/js-dag-cbor/compare/v7.0.1...v7.0.2) (2022-05-25)
 
 
