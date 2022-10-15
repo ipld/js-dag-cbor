@@ -1,8 +1,7 @@
-'use strict'
-
+// @ts-expect-error no types
 const CID = require('cids')
 
-module.exports = {
+export default {
   foo: 'bar',
   cats: [
     new CID('QmRgutAxd8t7oGkSm4wmeuByG6M51wcTso6cubDdQtuEfL'),

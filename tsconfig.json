@@ -1,37 +1,14 @@
 {
+  "extends": "aegir/src/config/tsconfig.aegir.json",
   "compilerOptions": {
-    "allowJs": true,
-    "checkJs": true,
-    "forceConsistentCasingInFileNames": true,
-    "noImplicitReturns": false,
-    "noImplicitAny": true,
-    "noImplicitThis": true,
-    "noFallthroughCasesInSwitch": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "strictFunctionTypes": false,
-    "strictNullChecks": true,
-    "strictPropertyInitialization": true,
-    "strictBindCallApply": true,
-    "strict": true,
-    "alwaysStrict": true,
-    "esModuleInterop": true,
-    "target": "ES2018",
-    "moduleResolution": "node",
-    "declaration": true,
-    "declarationMap": true,
-    "outDir": "types",
-    "skipLibCheck": true,
-    "stripInternal": true,
-    "resolveJsonModule": true,
-    "baseUrl": ".",
+    "outDir": "dist",
     "emitDeclarationOnly": true
   },
   "include": [
-    "index.js"
+    "src",
+    "test"
   ],
   "exclude": [
-    "node_modules"
-  ],
-  "compileOnSave": false
+    "test/ts-use"
+  ]
 }

@@ -7,7 +7,7 @@ const CID_CBOR_TAG = 42
 /**
  * @template T
  * @typedef {import('multiformats/codecs/interface').ByteView<T>} ByteView
-*/
+ */
 
 /**
  * cidEncoder will receive all Objects during encode, it needs to filter out
@@ -35,6 +35,7 @@ function cidEncoder (obj) {
   ]
 }
 
+// eslint-disable-next-line jsdoc/require-returns-check
 /**
  * Intercept all `undefined` values from an object walk and reject the entire
  * object if we find one.

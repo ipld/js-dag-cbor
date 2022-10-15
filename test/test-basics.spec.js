@@ -2,12 +2,11 @@
 
 import { Buffer } from 'buffer'
 import { garbage } from 'ipld-garbage'
-import chai from 'chai'
-import * as dagcbor from '../index.js'
+import { assert } from 'aegir/chai'
+import * as dagcbor from '../src/index.js'
 import { bytes, CID } from 'multiformats'
 
 const { encode, decode } = dagcbor
-const { assert } = chai
 const test = it
 const same = assert.deepStrictEqual
 
@@ -32,7 +31,7 @@ describe('dag-cbor', () => {
 
     // Check for the tag 42
     // d8 = tag, 2a = 42
-    same(bytes.toHex(serializedObj).match(/d82a/g).length, 4)
+    same(bytes.toHex(serializedObj).match(/d82a/g)?.length, 4)
 
     const deserializedObj = decode(serializedObj)
     same(deserializedObj, obj)
@@ -140,7 +139,7 @@ describe('dag-cbor', () => {
 
     same(s1, s2)
 
-    const verify = (s) => {
+    const verify = (/** @type {{ data: Uint8Array }} */ s) => {
       same(typeof s, 'object')
       same(Object.keys(s), ['data'])
       assert(s.data instanceof Uint8Array)
