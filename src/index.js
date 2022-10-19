@@ -18,7 +18,7 @@ const CID_CBOR_TAG = 42
  * @returns {cborg.Token[]|null}
  */
 function cidEncoder (obj) {
-  if (obj.asCID !== obj) {
+  if (obj['/'] !== obj.bytes) {
     return null // any other kind of object
   }
   const cid = CID.asCID(obj)

@@ -1,7 +1,7 @@
 /* eslint-env mocha */
 
 import { Buffer } from 'buffer'
-import { garbage } from 'ipld-garbage'
+import { garbage } from '@ipld/garbage'
 import { assert } from 'aegir/chai'
 import * as dagcbor from '../src/index.js'
 import { bytes, CID } from 'multiformats'

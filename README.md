@@ -7,10 +7,10 @@
 
 ## Table of contents <!-- omit in toc -->
 
-- - [Install](#install)
+- [Install](#install)
 - [Spec](#spec)
-  - [License](#license)
-  - [Contribute](#contribute)
+- [License](#license)
+- [Contribute](#contribute)
 
 ## Install
 
@@ -45,7 +45,7 @@ decoded.y[0] // 2
 CID.asCID(decoded.z.a) // cid instance
 ```
 
-# Spec
+## Spec
 
 The [`dag-cbor` specification is in the IPLD specs repo](https://github.com/ipld/specs/blob/master/block-layer/codecs/dag-cbor.md).
 
