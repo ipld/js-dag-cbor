@@ -1,8 +1,7 @@
-'use strict'
-
+// @ts-expect-error no types
 const CID = require('cids')
 
-module.exports = {
+export default {
   arrayLink: new CID('zdpuAsZ8roJvCazJFXUnSULspbXfxrLkUkNxy6SToaiDpEiap'),
   emptyArray: new CID('zdpuAtQy7GSHNcZxdBfmtowdL1d2WAFjJBwb6WAEfFJ6T4Gbi'),
   emptyObj: new CID('zdpuAyTBnYSugBZhqJuLsNpzjmAjSmxDqBbtAqXMtsvxiN2v3'),
