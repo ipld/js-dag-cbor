@@ -1,3 +1,20 @@
+## [8.0.0](https://github.com/ipld/js-dag-cbor/compare/v7.0.3...v8.0.0) (2022-10-19)
+
+
+### ⚠ BREAKING CHANGES
+
+* publish as esm-only (#71)
+
+### Features
+
+* publish as esm-only ([#71](https://github.com/ipld/js-dag-cbor/issues/71)) ([807fdd4](https://github.com/ipld/js-dag-cbor/commit/807fdd465c7d60de63c58256db0ac4df26476c3d))
+
+
+### Trivial Changes
+
+* **no-release:** bump actions/setup-node from 3.4.1 to 3.5.0 ([#68](https://github.com/ipld/js-dag-cbor/issues/68)) ([4716850](https://github.com/ipld/js-dag-cbor/commit/47168509e6571c729604ebc29013f314f618379d))
+* **no-release:** bump actions/setup-node from 3.5.0 to 3.5.1 ([#70](https://github.com/ipld/js-dag-cbor/issues/70)) ([14f9cdc](https://github.com/ipld/js-dag-cbor/commit/14f9cdca80d9df3be902107b789b1197bc03e6d9))
+
 ## [7.0.3](https://github.com/ipld/js-dag-cbor/compare/v7.0.2...v7.0.3) (2022-08-27)
 
 
