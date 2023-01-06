@@ -176,4 +176,9 @@ describe('dag-cbor', () => {
     decoded = decode(encoded)
     same({ foo: 'bar', baz: null }, decoded)
   })
+
+  test('reject duplicate map keys', () => {
+    const encoded = bytes.fromHex('a3636261720363666f6f0163666f6f02')
+    assert.throws(() => decode(encoded), /CBOR decode error: found repeat map key "foo"/)
+  })
 })

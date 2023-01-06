@@ -161,7 +161,7 @@
     "dep-check": "aegir dep-check"
   },
   "dependencies": {
-    "cborg": "^1.6.0",
+    "cborg": "^1.10.0",
     "multiformats": "^11.0.0"
   },
   "devDependencies": {
