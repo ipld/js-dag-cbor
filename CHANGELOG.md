@@ -1,3 +1,14 @@
+## [9.0.0](https://github.com/ipld/js-dag-cbor/compare/v8.0.1...v9.0.0) (2023-01-06)
+
+
+### ⚠ BREAKING CHANGES
+
+* reject duplicate map keys
+
+### Bug Fixes
+
+* reject duplicate map keys ([2e90e34](https://github.com/ipld/js-dag-cbor/commit/2e90e34d959cfcc581acb8f813d8eb5a41e6ff98))
+
 ## [8.0.1](https://github.com/ipld/js-dag-cbor/compare/v8.0.0...v8.0.1) (2023-01-03)
 
 
