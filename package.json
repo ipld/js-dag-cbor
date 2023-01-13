@@ -166,7 +166,7 @@
   },
   "devDependencies": {
     "@ipld/garbage": "^6.0.0",
-    "aegir": "^37.5.6",
+    "aegir": "^38.1.0",
     "buffer": "^6.0.3"
   }
 }
