@@ -48,7 +48,8 @@
   "exports": {
     ".": {
       "types": "./dist/src/index.d.ts",
-      "import": "./src/index.js"
+      "import": "./src/index.js",
+      "require": "./dist/cjs/index.js"
     }
   },
   "eslintConfig": {
@@ -148,6 +149,7 @@
   "scripts": {
     "clean": "aegir clean",
     "lint": "aegir lint",
+    "build:cjs": "node ./build-cjs.js && echo {\"type\": \"commonjs\"} > ./dist/cjs/package.json",
     "build": "aegir build",
     "release": "aegir release",
     "test": "npm run lint && aegir test",
@@ -166,6 +168,7 @@
   },
   "devDependencies": {
     "@ipld/garbage": "^6.0.0",
+    "esbuild": "0.17.14",
     "aegir": "^37.5.6",
     "buffer": "^6.0.3"
   }
