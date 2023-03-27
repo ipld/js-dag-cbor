@@ -149,8 +149,8 @@
   "scripts": {
     "clean": "aegir clean",
     "lint": "aegir lint",
-    "build:cjs": "node ./build-cjs.js && echo {\"type\": \"commonjs\"} > ./dist/cjs/package.json",
-    "build": "aegir build",
+    "build:cjs": "node ./build-cjs.cjs && echo {\"type\": \"commonjs\"} > ./dist/cjs/package.json",
+    "build": "aegir build && npm run build:cjs",
     "release": "aegir release",
     "test": "npm run lint && aegir test",
     "test:ts": "npm run test --prefix test/ts-use",
