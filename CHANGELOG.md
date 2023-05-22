@@ -1,3 +1,15 @@
+## [9.0.1](https://github.com/ipld/js-dag-cbor/compare/v9.0.0...v9.0.1) (2023-05-22)
+
+
+### Bug Fixes
+
+* address linting problems ([1e61b12](https://github.com/ipld/js-dag-cbor/commit/1e61b12dcad9aa4b973fbe270217bdcd27e5f465))
+
+
+### Dependencies
+
+* **dev:** bump aegir from 37.12.1 to 39.0.8 ([45f01de](https://github.com/ipld/js-dag-cbor/commit/45f01de2eb089135d669fee6f0b5e05ad21cc750))
+
 ## [9.0.0](https://github.com/ipld/js-dag-cbor/compare/v8.0.1...v9.0.0) (2023-01-06)
 
 
