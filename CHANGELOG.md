@@ -1,3 +1,10 @@
+## [9.0.2](https://github.com/ipld/js-dag-cbor/compare/v9.0.1...v9.0.2) (2023-06-14)
+
+
+### Dependencies
+
+* bump cborg from 1.10.2 to 2.0.1 ([d5fd52a](https://github.com/ipld/js-dag-cbor/commit/d5fd52a50219f2bbac6b0ba3c6977bb6d32ef9a1))
+
 ## [9.0.1](https://github.com/ipld/js-dag-cbor/compare/v9.0.0...v9.0.1) (2023-05-22)
 
 
