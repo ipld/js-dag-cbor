@@ -1,6 +1,6 @@
 {
   "name": "@ipld/dag-cbor",
-  "version": "9.0.3",
+  "version": "9.0.4",
   "description": "JS implementation of DAG-CBOR",
   "author": "Rod <rod@vagg.org> (http://r.va.gg/)",
   "license": "Apache-2.0 OR MIT",
