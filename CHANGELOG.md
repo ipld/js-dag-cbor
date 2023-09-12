@@ -1,3 +1,16 @@
+## [9.0.5](https://github.com/ipld/js-dag-cbor/compare/v9.0.4...v9.0.5) (2023-09-12)
+
+
+### Trivial Changes
+
+* add or force update .github/workflows/js-test-and-release.yml ([1ac562b](https://github.com/ipld/js-dag-cbor/commit/1ac562bcd43443c10e4c8ae450dd167761a2472b))
+* delete templates [skip ci] ([#103](https://github.com/ipld/js-dag-cbor/issues/103)) ([683e127](https://github.com/ipld/js-dag-cbor/commit/683e1272d40611e79a40ad1f874817cb4b1c7f52))
+
+
+### Dependencies
+
+* bump cborg from 2.0.5 to 4.0.0 ([2adc833](https://github.com/ipld/js-dag-cbor/commit/2adc833ef225ab9b8069520853289f1632ab67da))
+
 ## [9.0.4](https://github.com/ipld/js-dag-cbor/compare/v9.0.3...v9.0.4) (2023-08-08)
 
 
