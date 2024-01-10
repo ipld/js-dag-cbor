@@ -1,3 +1,10 @@
+## [9.0.8](https://github.com/ipld/js-dag-cbor/compare/v9.0.7...v9.0.8) (2024-01-10)
+
+
+### Dependencies
+
+* **dev:** bump aegir from 41.3.5 to 42.1.0 ([c335c50](https://github.com/ipld/js-dag-cbor/commit/c335c50e88917581ac1a79a156a4a8f04080b269))
+
 ## [9.0.7](https://github.com/ipld/js-dag-cbor/compare/v9.0.6...v9.0.7) (2023-12-30)
 
 
