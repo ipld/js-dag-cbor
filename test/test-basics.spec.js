@@ -181,4 +181,11 @@ describe('dag-cbor', () => {
     const encoded = bytes.fromHex('a3636261720363666f6f0163666f6f02')
     assert.throws(() => decode(encoded), /CBOR decode error: found repeat map key "foo"/)
   })
+
+  test('exports encode and decode options', () => {
+    const { encodeOptions, decodeOptions } = dagcbor
+
+    assert.isDefined(encodeOptions)
+    assert.isDefined(decodeOptions)
+  })
 })

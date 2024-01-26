@@ -64,7 +64,7 @@ function numberEncoder (num) {
   return null
 }
 
-const encodeOptions = {
+export const encodeOptions = {
   float64: true,
   typeEncoders: {
     Object: cidEncoder,
@@ -84,7 +84,7 @@ function cidDecoder (bytes) {
   return CID.decode(bytes.subarray(1)) // ignore leading 0x00
 }
 
-const decodeOptions = {
+export const decodeOptions = {
   allowIndefinite: false,
   coerceUndefinedToNull: true,
   allowNaN: false,
