@@ -53,7 +53,6 @@ import { decodeFirst } from 'cborg'
 const byteLength = encodedLength(obj, encodeOptions)
 byteLength // 104
 
-
 // concatenate two dag-cbor encoded obj
 const concatenatedData = new Uint8Array(data.length * 2)
 concatenatedData.set(data)
