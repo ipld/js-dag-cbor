@@ -43,6 +43,26 @@ let data = encode(obj)
 let decoded = decode(data)
 decoded.y[0] // 2
 CID.asCID(decoded.z.a) // cid instance
+
+// encode/decode options are exported for use with cborg's encodedLength and decodeFirst
+import { encodeOptions, decodeOptions } from '@ipld/dag-cbor'
+import { encodedLength } from 'cborg/length'
+import { decodeFirst } from 'cborg'
+
+// dag-cbor encoded length of obj in bytes
+const byteLength = encodedLength(obj, encodeOptions)
+byteLength // 104
+
+
+// concatenate two dag-cbor encoded obj
+const concatenatedData = new Uint8Array(data.length * 2)
+concatenatedData.set(data)
+concatenatedData.set(data, data.length)
+
+// returns dag-cbor decoded obj at the beginning of the buffer as well as the remaining bytes
+const [first, remainder] = decodeFirst(concatenatedData, decodeOptions)
+assert.deepStrictEqual(first, obj)
+assert.deepStrictEqual(remainder, data)
 ```
 
 ## Spec
