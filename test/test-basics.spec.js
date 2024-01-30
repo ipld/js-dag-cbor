@@ -3,6 +3,8 @@
 import { Buffer } from 'buffer'
 import { garbage } from '@ipld/garbage'
 import { assert } from 'aegir/chai'
+import { decodeFirst } from 'cborg'
+import { encodedLength } from 'cborg/length'
 import { bytes, CID } from 'multiformats'
 import * as dagcbor from '../src/index.js'
 
@@ -180,5 +182,24 @@ describe('dag-cbor', () => {
   test('reject duplicate map keys', () => {
     const encoded = bytes.fromHex('a3636261720363666f6f0163666f6f02')
     assert.throws(() => decode(encoded), /CBOR decode error: found repeat map key "foo"/)
+  })
+
+  test('determine encoded length of obj', () => {
+    const { encodeOptions } = dagcbor
+
+    const length = encodedLength(obj, encodeOptions)
+    same(length, serializedObj.length)
+  })
+
+  test('.deserialize the first of concatenated serialized objects', () => {
+    const { decodeOptions } = dagcbor
+
+    const concatSerializedObjs = new Uint8Array(serializedObj.length * 2)
+    concatSerializedObjs.set(serializedObj)
+    concatSerializedObjs.set(serializedObj, serializedObj.length)
+
+    const [deserializedObj, remainder] = decodeFirst(concatSerializedObjs, decodeOptions)
+    same(deserializedObj, obj)
+    same(remainder, serializedObj)
   })
 })

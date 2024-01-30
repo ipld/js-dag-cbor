@@ -64,12 +64,19 @@ function numberEncoder (num) {
   return null
 }
 
-const encodeOptions = {
+const _encodeOptions = {
   float64: true,
   typeEncoders: {
     Object: cidEncoder,
     undefined: undefinedEncoder,
     number: numberEncoder
+  }
+}
+
+export const encodeOptions = {
+  ..._encodeOptions,
+  typeEncoders: {
+    ..._encodeOptions.typeEncoders
   }
 }
 
@@ -84,7 +91,7 @@ function cidDecoder (bytes) {
   return CID.decode(bytes.subarray(1)) // ignore leading 0x00
 }
 
-const decodeOptions = {
+const _decodeOptions = {
   allowIndefinite: false,
   coerceUndefinedToNull: true,
   allowNaN: false,
@@ -97,7 +104,12 @@ const decodeOptions = {
   /** @type {import('cborg').TagDecoder[]} */
   tags: []
 }
-decodeOptions.tags[CID_CBOR_TAG] = cidDecoder
+_decodeOptions.tags[CID_CBOR_TAG] = cidDecoder
+
+export const decodeOptions = {
+  ..._decodeOptions,
+  tags: _decodeOptions.tags.slice()
+}
 
 export const name = 'dag-cbor'
 export const code = 0x71
@@ -107,11 +119,11 @@ export const code = 0x71
  * @param {T} node
  * @returns {ByteView<T>}
  */
-export const encode = (node) => cborg.encode(node, encodeOptions)
+export const encode = (node) => cborg.encode(node, _encodeOptions)
 
 /**
  * @template T
  * @param {ByteView<T>} data
  * @returns {T}
  */
-export const decode = (data) => cborg.decode(data, decodeOptions)
+export const decode = (data) => cborg.decode(data, _decodeOptions)
