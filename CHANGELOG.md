@@ -1,3 +1,10 @@
+## [9.1.0](https://github.com/ipld/js-dag-cbor/compare/v9.0.8...v9.1.0) (2024-01-30)
+
+
+### Features
+
+* export encode/decode options ([#113](https://github.com/ipld/js-dag-cbor/issues/113)) ([d2094ca](https://github.com/ipld/js-dag-cbor/commit/d2094cab5c6d95250a569e2ac50c11caf77e1338))
+
 ## [9.0.8](https://github.com/ipld/js-dag-cbor/compare/v9.0.7...v9.0.8) (2024-01-10)
 
 
