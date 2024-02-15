@@ -15,6 +15,9 @@ function useCodecFeature (codec: BlockCodec<0x71, any>) {
   // use only as a BlockDecoder
   useDecoder(codec)
 
+  // use with ArrayBuffer input type
+  useDecoderWithArrayBuffer(codec)
+
   // use as a full BlockCodec which does both BlockEncoder & BlockDecoder
   useBlockCodec(codec)
 }
@@ -29,6 +32,12 @@ function useEncoder<Codec extends number> (encoder: BlockEncoder<Codec, string>)
 function useDecoder<Codec extends number> (decoder: BlockDecoder<Codec, Uint8Array>) {
   deepStrictEqual(decoder.code, 0x71)
   deepStrictEqual(decoder.decode(Uint8Array.from([100, 98, 108, 105, 112])), 'blip')
+  console.log('[TS] ✓ { decoder: BlockDecoder }')
+}
+
+function useDecoderWithArrayBuffer<Codec extends number> (decoder: BlockDecoder<Codec, Uint8Array>) {
+  deepStrictEqual(decoder.code, 0x70)
+  deepStrictEqual(decoder.decode(Uint8Array.from([100, 98, 108, 105, 112]).slice.buffer), 'blip')
   console.log('[TS] ✓ { decoder: BlockDecoder }')
 }
 

@@ -39,6 +39,20 @@ describe('dag-cbor', () => {
     same(deserializedObj, obj)
   })
 
+  test('.serialize and .deserialize with ArrayBuffer', () => {
+    same(bytes.isBinary(serializedObj), true)
+
+    // Check for the tag 42
+    // d8 = tag, 2a = 42
+    same(bytes.toHex(serializedObj).match(/d82a/g)?.length, 4)
+
+    const deserializedObj = decode(serializedObj.buffer.slice(
+        serializedObj.byteOffset,
+        serializedObj.byteOffset + serializedObj.byteLength)
+    )
+    same(deserializedObj, obj)
+  })
+
   test('.serialize and .deserialize large objects', () => {
     // larger than the default borc heap size, should auto-grow the heap
     const dataSize = 128 * 1024

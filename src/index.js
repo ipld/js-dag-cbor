@@ -10,6 +10,24 @@ const CID_CBOR_TAG = 42
  */
 
 /**
+ * @template T
+ * @typedef {import('multiformats/codecs/interface').ArrayBufferView<T>} ArrayBufferView
+ */
+
+/**
+ * @template T
+ * @param {ByteView<T> | ArrayBufferView<T>} buf
+ * @returns {ByteView<T>}
+ */
+export function toByteView (buf) {
+  if (buf instanceof ArrayBuffer) {
+    return new Uint8Array(buf, 0, buf.byteLength)
+  }
+
+  return buf
+}
+
+/**
  * cidEncoder will receive all Objects during encode, it needs to filter out
  * anything that's not a CID and return `null` for that so it's encoded as
  * normal.
@@ -123,7 +141,7 @@ export const encode = (node) => cborg.encode(node, _encodeOptions)
 
 /**
  * @template T
- * @param {ByteView<T>} data
+ * @param {ByteView<T> | ArrayBufferView<T>} data
  * @returns {T}
  */
-export const decode = (data) => cborg.decode(data, _decodeOptions)
+export const decode = (data) => cborg.decode(toByteView(data), _decodeOptions)
