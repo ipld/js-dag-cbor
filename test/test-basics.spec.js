@@ -47,8 +47,8 @@ describe('dag-cbor', () => {
     same(bytes.toHex(serializedObj).match(/d82a/g)?.length, 4)
 
     const deserializedObj = decode(serializedObj.buffer.slice(
-        serializedObj.byteOffset,
-        serializedObj.byteOffset + serializedObj.byteLength)
+      serializedObj.byteOffset,
+      serializedObj.byteOffset + serializedObj.byteLength)
     )
     same(deserializedObj, obj)
   })
