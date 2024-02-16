@@ -1,3 +1,10 @@
+## [9.2.0](https://github.com/ipld/js-dag-cbor/compare/v9.1.0...v9.2.0) (2024-02-16)
+
+
+### Features
+
+* support decoding ArrayBuffers ([#114](https://github.com/ipld/js-dag-cbor/issues/114)) ([a10269d](https://github.com/ipld/js-dag-cbor/commit/a10269d776099f44520171adfd86e65499607f94))
+
 ## [9.1.0](https://github.com/ipld/js-dag-cbor/compare/v9.0.8...v9.1.0) (2024-01-30)
 
 
