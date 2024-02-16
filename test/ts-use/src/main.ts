@@ -37,7 +37,7 @@ function useDecoder<Codec extends number> (decoder: BlockDecoder<Codec, Uint8Arr
 
 function useDecoderWithArrayBuffer<Codec extends number> (decoder: BlockDecoder<Codec, Uint8Array>) {
   deepStrictEqual(decoder.code, 0x70)
-  deepStrictEqual(decoder.decode(Uint8Array.from([100, 98, 108, 105, 112]).slice.buffer), 'blip')
+  deepStrictEqual(decoder.decode(Uint8Array.from([100, 98, 108, 105, 112]).buffer), 'blip')
   console.log('[TS] ✓ { decoder: BlockDecoder }')
 }
 
