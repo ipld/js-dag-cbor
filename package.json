@@ -162,7 +162,7 @@
   },
   "dependencies": {
     "cborg": "^4.0.0",
-    "multiformats": "^13.0.0"
+    "multiformats": "^13.1.0"
   },
   "devDependencies": {
     "@ipld/garbage": "^6.0.0",
