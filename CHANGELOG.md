@@ -1,3 +1,18 @@
+## [9.2.4](https://github.com/ipld/js-dag-cbor/compare/v9.2.3...v9.2.4) (2025-05-22)
+
+### Bug Fixes
+
+* address lint errors ([467d98c](https://github.com/ipld/js-dag-cbor/commit/467d98c6142b5e1369b468a565e28eb4f39dfbcc))
+
+### Trivial Changes
+
+* omit lockfile from release commit ([#126](https://github.com/ipld/js-dag-cbor/issues/126)) ([2013bda](https://github.com/ipld/js-dag-cbor/commit/2013bda1b7ca0cc4e89e6f586642885513960cbf))
+* remove package-lock ([6445f53](https://github.com/ipld/js-dag-cbor/commit/6445f5324f06678dc4b6639836abf79a306f4865))
+
+### Dependencies
+
+* **dev:** bump aegir from 46.0.5 to 47.0.10 ([c0b2879](https://github.com/ipld/js-dag-cbor/commit/c0b287933d29177cd6ff1232c27bd0a8ae5e661b))
+
 ## [9.2.3](https://github.com/ipld/js-dag-cbor/compare/v9.2.2...v9.2.3) (2025-05-08)
 
 ### Dependencies
