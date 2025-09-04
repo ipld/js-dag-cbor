@@ -1,3 +1,9 @@
+## [9.2.5](https://github.com/ipld/js-dag-cbor/compare/v9.2.4...v9.2.5) (2025-09-04)
+
+### Bug Fixes
+
+* reject non-string map keys (and zero length keys) ([#130](https://github.com/ipld/js-dag-cbor/issues/130)) ([ab169ee](https://github.com/ipld/js-dag-cbor/commit/ab169ee37de2caca22d25642fc951a731c676399))
+
 ## [9.2.4](https://github.com/ipld/js-dag-cbor/compare/v9.2.3...v9.2.4) (2025-05-22)
 
 ### Bug Fixes
