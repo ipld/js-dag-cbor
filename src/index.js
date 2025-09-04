@@ -82,9 +82,23 @@ function numberEncoder (num) {
   return null
 }
 
+/**
+ * @param {Map<any, any>} map
+ * @returns {null}
+ */
+function mapEncoder (map) {
+  for (const key of map.keys()) {
+    if (typeof key !== 'string' || key.length === 0) {
+      throw new Error('Non-string Map keys are not supported by the IPLD Data Model and cannot be encoded')
+    }
+  }
+  return null
+}
+
 const _encodeOptions = {
   float64: true,
   typeEncoders: {
+    Map: mapEncoder,
     Object: cidEncoder,
     undefined: undefinedEncoder,
     number: numberEncoder

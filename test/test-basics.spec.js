@@ -106,6 +106,37 @@ describe('dag-cbor', () => {
     }
   })
 
+  test('error on encoding Map with non-string keys', () => {
+    const mapWithNumber = new Map([[1, 'value']])
+    assert.throws(() => encode(mapWithNumber), /Non-string Map keys are not supported by the IPLD Data Model and cannot be encoded/)
+
+    const mapWithNull = new Map([[null, 'value']])
+    assert.throws(() => encode(mapWithNull), /Non-string Map keys are not supported by the IPLD Data Model and cannot be encoded/)
+
+    const mapWithEmptyString = new Map([['', 'value']])
+    assert.throws(() => encode(mapWithEmptyString), /Non-string Map keys are not supported by the IPLD Data Model and cannot be encoded/)
+
+    const mapWithObject = new Map([[{}, 'value']])
+    assert.throws(() => encode(mapWithObject), /Non-string Map keys are not supported by the IPLD Data Model and cannot be encoded/)
+  })
+
+  test('Map with string keys round-trips as object', () => {
+    const map = new Map()
+    map.set('key1', 'value1')
+    map.set('key2', 'value2')
+    map.set('nested', { a: 1, b: 2 })
+
+    const encoded = encode(map)
+    const decoded = /** @type {any} */ (decode(encoded))
+
+    // Map should be decoded as a plain object
+    same(decoded, {
+      key1: 'value1',
+      key2: 'value2',
+      nested: { a: 1, b: 2 }
+    })
+  })
+
   test('error on decoding IEEE 754 specials', () => {
     // encoded forms of each of the previous encode() tests
     const cases = [
