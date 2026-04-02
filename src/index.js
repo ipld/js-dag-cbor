@@ -113,10 +113,11 @@ export const encodeOptions = {
 }
 
 /**
- * @param {Uint8Array} bytes
+ * @param {import('cborg').TagDecodeControl} decode
  * @returns {CID}
  */
-function cidDecoder (bytes) {
+function cidDecoder (decode) {
+  const bytes = /** @type {Uint8Array} */ (decode())
   if (bytes[0] !== 0) {
     throw new Error('Invalid CID for CBOR tag 42; expected leading 0x00')
   }
@@ -133,14 +134,13 @@ const _decodeOptions = {
   strict: true,
   useMaps: false,
   rejectDuplicateMapKeys: true,
-  /** @type {import('cborg').TagDecoder[]} */
-  tags: []
+  /** @type {{ [tagNumber: number]: import('cborg').TagDecoder }} */
+  tags: { [CID_CBOR_TAG]: cidDecoder }
 }
-_decodeOptions.tags[CID_CBOR_TAG] = cidDecoder
 
 export const decodeOptions = {
   ..._decodeOptions,
-  tags: _decodeOptions.tags.slice()
+  tags: { ..._decodeOptions.tags }
 }
 
 export const name = 'dag-cbor'
