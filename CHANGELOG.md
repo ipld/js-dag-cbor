@@ -1,3 +1,13 @@
+## [9.2.6](https://github.com/ipld/js-dag-cbor/compare/v9.2.5...v9.2.6) (2026-04-02)
+
+### Bug Fixes
+
+* adapt to cborg@5 changes ([b77ee42](https://github.com/ipld/js-dag-cbor/commit/b77ee4220a3c8ff13562488ff169ce08621aadc5))
+
+### Dependencies
+
+* bump cborg from 4.5.8 to 5.0.0 ([fa48f20](https://github.com/ipld/js-dag-cbor/commit/fa48f20043cffb988d3a1695f3699f9717ad61a0))
+
 ## [9.2.5](https://github.com/ipld/js-dag-cbor/compare/v9.2.4...v9.2.5) (2025-09-04)
 
 ### Bug Fixes
