@@ -1,80 +1,39 @@
-# @ipld/dag-cbor <!-- omit in toc -->
+# @ipld/dag-cbor
 
 [![codecov](https://img.shields.io/codecov/c/github/ipld/js-dag-cbor.svg?style=flat-square)](https://codecov.io/gh/ipld/js-dag-cbor)
-[![CI](https://img.shields.io/github/workflow/status/ipld/js-dag-cbor/test%20&%20maybe%20release/master?style=flat-square)](https://github.com/ipld/js-dag-cbor/actions/workflows/js-test-and-release.yml)
+[![CI](https://img.shields.io/github/actions/workflow/status/ipld/js-dag-cbor/js-test-and-release.yml?branch=master\&style=flat-square)](https://github.com/ipld/js-dag-cbor/actions/workflows/js-test-and-release.yml?query=branch%3Amaster)
 
 > JS implementation of DAG-CBOR
 
-## Table of contents <!-- omit in toc -->
-
-- [Install](#install)
-- [Spec](#spec)
-- [License](#license)
-- [Contribute](#contribute)
-
-## Install
+# Install
 
 ```console
 $ npm i @ipld/dag-cbor
 ```
 
-This is the *new* interface meant for use by itself or with `multiformats` and
-`@ipld/block`. It is not used by `js-ipld-format` which is currently
-used in IPFS. That library is [here](https://github.com/ipld/js-ipld-dag-cbor).
+## Browser `<script>` tag
 
-Usage:
+Loading this module through a script tag will make its exports available as `IpldDagCbor` in the global namespace.
 
-```javascript
-import { encode, decode } from '@ipld/dag-cbor'
-import { CID } from 'multiformats'
-
-const obj = {
-  x: 1,
-  /* CID instances are encoded as links */
-  y: [2, 3, CID.parse('QmaozNR7DZHQK1ZcU9p7QdrshMvXqWK6gpu5rmrkPdT3L4')],
-  z: {
-    a: CID.parse('QmaozNR7DZHQK1ZcU9p7QdrshMvXqWK6gpu5rmrkPdT3L4'),
-    b: null,
-    c: 'string'
-  }
-}
-
-let data = encode(obj)
-let decoded = decode(data)
-decoded.y[0] // 2
-CID.asCID(decoded.z.a) // cid instance
-
-// encode/decode options are exported for use with cborg's encodedLength and decodeFirst
-import { encodeOptions, decodeOptions } from '@ipld/dag-cbor'
-import { encodedLength } from 'cborg/length'
-import { decodeFirst } from 'cborg'
-
-// dag-cbor encoded length of obj in bytes
-const byteLength = encodedLength(obj, encodeOptions)
-byteLength // 104
-
-// concatenate two dag-cbor encoded obj
-const concatenatedData = new Uint8Array(data.length * 2)
-concatenatedData.set(data)
-concatenatedData.set(data, data.length)
-
-// returns dag-cbor decoded obj at the beginning of the buffer as well as the remaining bytes
-const [first, remainder] = decodeFirst(concatenatedData, decodeOptions)
-assert.deepStrictEqual(first, obj)
-assert.deepStrictEqual(remainder, data)
+```html
+<script src="https://unpkg.com/@ipld/dag-cbor/dist/index.min.js"></script>
 ```
 
 ## Spec
 
 The [`dag-cbor` specification is in the IPLD specs repo](https://github.com/ipld/specs/blob/master/block-layer/codecs/dag-cbor.md).
 
-## License
+# API Docs
+
+- <https://ipld.github.io/js-dag-cbor>
+
+# License
 
 Licensed under either of
 
-- Apache 2.0, ([LICENSE-APACHE](LICENSE-APACHE) / <http://www.apache.org/licenses/LICENSE-2.0>)
-- MIT ([LICENSE-MIT](LICENSE-MIT) / <http://opensource.org/licenses/MIT>)
+- Apache 2.0, ([LICENSE-APACHE](https://github.com/ipld/js-dag-cbor/LICENSE-APACHE) / <http://www.apache.org/licenses/LICENSE-2.0>)
+- MIT ([LICENSE-MIT](https://github.com/ipld/js-dag-cbor/LICENSE-MIT) / <http://opensource.org/licenses/MIT>)
 
-## Contribute
+# Contribution
 
 Unless you explicitly state otherwise, any contribution intentionally submitted for inclusion in the work by you, as defined in the Apache-2.0 license, shall be dual licensed as above, without any additional terms or conditions.
