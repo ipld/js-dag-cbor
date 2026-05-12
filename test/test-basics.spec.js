@@ -1,5 +1,3 @@
-/* eslint-env mocha */
-
 import { Buffer } from 'buffer'
 import { garbage } from '@ipld/garbage'
 import { assert } from 'aegir/chai'

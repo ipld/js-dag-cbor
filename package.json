@@ -12,15 +12,15 @@
   "bugs": {
     "url": "https://github.com/ipld/js-dag-cbor/issues"
   },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
   "keywords": [
     "ipfs",
     "ipld",
     "multiformats"
   ],
-  "engines": {
-    "node": ">=16.0.0",
-    "npm": ">=7.0.0"
-  },
   "type": "module",
   "types": "./dist/src/index.d.ts",
   "typesVersions": {
@@ -48,17 +48,9 @@
   "exports": {
     ".": {
       "types": "./dist/src/index.d.ts",
-      "import": "./src/index.js"
+      "import": "./src/index.js",
+      "module-sync": "./src/index.js"
     }
-  },
-  "eslintConfig": {
-    "extends": "ipfs",
-    "parserOptions": {
-      "sourceType": "module"
-    },
-    "ignorePatterns": [
-      "test/ts-use"
-    ]
   },
   "release": {
     "branches": [
