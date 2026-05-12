@@ -1,3 +1,13 @@
+## [10.0.0](https://github.com/ipld/js-dag-cbor/compare/v9.2.7...v10.0.0) (2026-05-12)
+
+### ⚠ BREAKING CHANGES
+
+* bump multiformats from 13.4.2 to 14.0.0 (#135)
+
+### Dependencies
+
+* bump multiformats from 13.4.2 to 14.0.0 ([#135](https://github.com/ipld/js-dag-cbor/issues/135)) ([b612d7d](https://github.com/ipld/js-dag-cbor/commit/b612d7d354ddf46837757b09a7f4c0f4f4a5eb84))
+
 ## [9.2.7](https://github.com/ipld/js-dag-cbor/compare/v9.2.6...v9.2.7) (2026-05-12)
 
 ### Dependencies
