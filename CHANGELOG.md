@@ -1,3 +1,9 @@
+## [10.0.1](https://github.com/ipld/js-dag-cbor/compare/v10.0.0...v10.0.1) (2026-05-12)
+
+### Bug Fixes
+
+* generate docs website ([#136](https://github.com/ipld/js-dag-cbor/issues/136)) ([34fcd5d](https://github.com/ipld/js-dag-cbor/commit/34fcd5dc5bce56d115509eb7f240fb2fc8120e08))
+
 ## [10.0.0](https://github.com/ipld/js-dag-cbor/compare/v9.2.7...v10.0.0) (2026-05-12)
 
 ### ⚠ BREAKING CHANGES
