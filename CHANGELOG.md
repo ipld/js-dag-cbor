@@ -1,3 +1,9 @@
+## [10.0.2](https://github.com/ipld/js-dag-cbor/compare/v10.0.1...v10.0.2) (2026-07-30)
+
+### Dependencies
+
+* bump cborg from 5.1.11 to 6.1.1 ([#137](https://github.com/ipld/js-dag-cbor/issues/137)) ([be2ac1d](https://github.com/ipld/js-dag-cbor/commit/be2ac1d974e0889f0473fcc55d1dd32151a9871e))
+
 ## [10.0.1](https://github.com/ipld/js-dag-cbor/compare/v10.0.0...v10.0.1) (2026-05-12)
 
 ### Bug Fixes
