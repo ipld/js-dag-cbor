@@ -162,7 +162,7 @@
     "docs": "aegir docs"
   },
   "dependencies": {
-    "cborg": "^6.1.1",
+    "cborg": "^7.0.0",
     "multiformats": "^14.0.0"
   },
   "devDependencies": {
