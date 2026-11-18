@@ -4,6 +4,20 @@
 
 * Typical dag-cbor use is not expected to be impacted, fixes are for various edge cases. See [cborg v7 notes](https://github.com/rvagg/cborg/releases/tag/v7.0.0 ) for details. Some previously accepted input data may now be rejected as invalid, input data with boxed primitives may now produce different (correct) encoded forms and therefore different CIDs, some encoded data may now be rejected as invalid.
 
+### Trivial Changes
+
+* **release:** 11.0.0 [skip ci] ([53584a7](https://github.com/ipld/js-dag-cbor/commit/53584a7c912cd342cf4ba9fdac4a2fd346e3b620))
+
+### Dependencies
+
+* bump cborg from 6.2.1 to 7.0.0 ([#138](https://github.com/ipld/js-dag-cbor/issues/138)) ([0510895](https://github.com/ipld/js-dag-cbor/commit/0510895c0becc1fde53bc2dc45bc9b1f51012f8a))
+
+## [11.0.0](https://github.com/ipld/js-dag-cbor/compare/v10.0.2...v11.0.0) (2026-11-18)
+
+### ⚠ BREAKING CHANGES
+
+* Typical dag-cbor use is not expected to be impacted, fixes are for various edge cases. See [cborg v7 notes](https://github.com/rvagg/cborg/releases/tag/v7.0.0 ) for details. Some previously accepted input data may now be rejected as invalid, input data with boxed primitives may now produce different (correct) encoded forms and therefore different CIDs, some encoded data may now be rejected as invalid.
+
 ### Dependencies
 
 * bump cborg from 6.2.1 to 7.0.0 ([#138](https://github.com/ipld/js-dag-cbor/issues/138)) ([0510895](https://github.com/ipld/js-dag-cbor/commit/0510895c0becc1fde53bc2dc45bc9b1f51012f8a))
